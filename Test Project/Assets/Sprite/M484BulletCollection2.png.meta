@@ -1,0 +1,747 @@
+fileFormatVersion: 2
+guid: 7f8ce3b76f152c84a90c636c0535ed7a
+timeCreated: 1526104459
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: M484BulletCollection2_0
+    21300002: M484BulletCollection2_1
+    21300004: M484BulletCollection2_2
+    21300006: M484BulletCollection2_3
+    21300008: M484BulletCollection2_4
+    21300010: M484BulletCollection2_5
+    21300012: M484BulletCollection2_6
+    21300014: M484BulletCollection2_7
+    21300016: M484BulletCollection2_8
+    21300018: M484BulletCollection2_9
+    21300020: M484BulletCollection2_10
+    21300022: M484BulletCollection2_11
+    21300024: M484BulletCollection2_12
+    21300026: M484BulletCollection2_13
+    21300028: M484BulletCollection2_14
+    21300030: M484BulletCollection2_15
+    21300032: M484BulletCollection2_16
+    21300034: M484BulletCollection2_17
+    21300036: M484BulletCollection2_18
+    21300038: M484BulletCollection2_19
+    21300040: M484BulletCollection2_20
+    21300042: M484BulletCollection2_21
+    21300044: M484BulletCollection2_22
+    21300046: M484BulletCollection2_23
+    21300048: M484BulletCollection2_24
+    21300050: M484BulletCollection2_25
+    21300052: M484BulletCollection2_26
+    21300054: M484BulletCollection2_27
+    21300056: M484BulletCollection2_28
+    21300058: M484BulletCollection2_29
+    21300060: M484BulletCollection2_30
+    21300062: M484BulletCollection2_31
+    21300064: M484BulletCollection2_32
+    21300066: M484BulletCollection2_33
+    21300068: M484BulletCollection2_34
+    21300070: M484BulletCollection2_35
+    21300072: M484BulletCollection2_36
+    21300074: M484BulletCollection2_37
+    21300076: M484BulletCollection2_38
+    21300078: M484BulletCollection2_39
+    21300080: M484BulletCollection2_40
+    21300082: M484BulletCollection2_41
+    21300084: M484BulletCollection2_42
+    21300086: M484BulletCollection2_43
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: M484BulletCollection2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_2
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_3
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_4
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_5
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_6
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_7
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_8
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_9
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_10
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 67.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 45
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_12
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_13
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_14
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_15
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_16
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_17
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_18
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_19
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_20
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_21
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 45.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_23
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_24
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_25
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_26
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_27
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_28
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_29
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_30
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_31
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_32
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 23.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_33
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 2
+        width: 11
+        height: 18
+      alignment: 9
+      pivot: {x: 0.49999994, y: 0.4806159}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_34
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 2
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_35
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 2
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_36
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 2
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_37
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 2
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_38
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_39
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_40
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_41
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_42
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: M484BulletCollection2_43
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1.5
+        width: 14.272727
+        height: 22.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

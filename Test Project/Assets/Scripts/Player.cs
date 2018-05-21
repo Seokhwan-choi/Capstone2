@@ -1,0 +1,358 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour {
+
+    public float movePower = 7.5f; // 움직이는 속도
+    public float jumpPower = 20f; //  점프 세기
+    public float maxSlideTime = 0.3f; // 슬라이딩 시간
+    public float shootDelay = 0.5f; // 총알 딜레이
+    public int jumpCount = 2; // 점프 가능 횟수
+    public int Health_Power = 5;
+
+    Rigidbody2D rigid;
+    Animator animator;
+    public SpriteRenderer spriteRenderer;
+
+    Vector3 movement;
+
+    bool isUnBeatTime = false;    
+
+    public bool isJumping = false;
+    public bool isSliding = false;
+    public bool doubleJump = false;
+    public bool isShoot = false;
+    public bool isWallSliding = false;
+    public bool facingright = false;
+    public bool inputLeft = false;
+    public bool inputRight = false;
+    public bool inputJump = false;
+    public bool inputAttack = false;
+    public bool inputDash = false;
+
+    public GameObject dustEffect;
+    public GameObject Bullet;
+
+    public GameObject wallCheck_right;
+    public GameObject wallCheck_left;
+    public bool wallCheck;
+    public LayerMask wallLayerMask;
+
+    [SerializeField]
+    GameObject SlideCollider;
+
+    float slideTimer = 0.0f;
+    float shootTimer = 0.0f;
+    
+	// Use this for initialization
+	void Start () {
+        rigid = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponentInChildren<Animator>();
+        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
+        ui.init();
+        HPbar hp = GameObject.FindGameObjectWithTag("HPbar").GetComponent<HPbar>();
+        hp.init();
+
+	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        // 캐릭터 Idle,왼쪽이동,오른쪽이동
+        if ((!inputRight && !inputLeft))
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else if (inputLeft)
+        {
+            animator.SetBool("isMoving", true);
+
+        }
+        else if (inputRight)
+        {
+            animator.SetBool("isMoving", true);
+        }
+
+        // 캐릭터 점프
+        if(!inputJump)
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else if (inputJump && jumpCount > 0)
+        {
+            isJumping = true; // 점프 상태 true
+            // 먼지 Effect를 캐릭터 위치에 생성
+            Instantiate(dustEffect, new Vector3(transform.position.x, transform.position.y - 2.5f
+                    , transform.position.z), Quaternion.identity);
+            animator.SetBool("isJumping", true); // 점프 상태임을 animator에서 확인
+            animator.SetTrigger("doJumping"); // 점프 애니메이션 실행
+            animator.SetBool("isRide", false);
+            inputJump = false;
+        }
+
+        // 캐릭터 슬라이딩
+        if (!inputDash)
+        {
+            animator.SetBool("isSliding", false);
+        }
+        else if (inputDash && !animator.GetBool("isSliding"))
+        {
+            slideTimer = 0f; // 슬라이딩 시간 0으로 초기화
+            isSliding = true; // 슬라이딩 상태 true
+            animator.SetBool("isSliding", true); // 슬라이딩 애니메이션 실행
+
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            SlideCollider.GetComponent<BoxCollider2D>().enabled = true;
+            inputDash = false;
+        }
+
+        // 캐릭터 슬라이딩 동작
+        if (isSliding)
+        {
+            slideTimer += Time.deltaTime;
+            movePower = 20.0f; // 캐릭터의 이동속도를 높여주고 먼지 Effect를 생성
+            Instantiate(dustEffect, new Vector3(transform.position.x, transform.position.y - 2.5f
+                    , transform.position.z), Quaternion.identity);
+            // 약 0.3초가량 이동한다.
+            if (slideTimer > maxSlideTime)
+            {
+                isSliding = false;
+                animator.SetBool("isSliding", false);
+                movePower = 7.5f;
+
+                gameObject.GetComponent<BoxCollider2D>().enabled = true; // 원래 크기의 히트박스
+                SlideCollider.GetComponent<BoxCollider2D>().enabled = false; // 슬라이딩할때 히트박스
+            }
+            // 사용자가 임의로 멈추면 슬라이딩 멈춘다.
+            if (Input.GetAxisRaw("Horizontal") == 0)
+            {
+                isSliding = false;
+                animator.SetBool("isSliding", false);
+                movePower = 7.5f;
+
+                gameObject.GetComponent<BoxCollider2D>().enabled = true;  // 원래 크기의 히트박스
+                SlideCollider.GetComponent<BoxCollider2D>().enabled = false; // 슬라이딩할때 히트박스
+            }
+        }
+
+        //  캐릭터 탄환발사
+        if (!inputAttack)
+        {
+            animator.SetBool("isShoot", false);            
+        }
+        else if (inputAttack && !isShoot)
+        {
+            isShoot = true;
+            inputAttack = false;
+        }
+
+        // 캐릭터 벽 타기
+        if (animator.GetBool("isJumping"))
+        {
+            if (facingright)
+            {
+                if (wallCheck = Physics2D.OverlapCircle(wallCheck_right.transform.position, 0.1f, wallLayerMask))
+                {
+                    jumpCount = 2;
+                    animator.SetBool("isRide", true);
+                    if (facingright && Input.GetAxisRaw("Horizontal") > 0)
+                    {
+                        if (wallCheck)
+                            HandlewallSliding();
+                    }
+                }
+                else
+                {
+                    animator.SetBool("isRide", false);
+                    isWallSliding = false;
+                }
+
+            }
+            else if (!facingright)
+            {
+                if (wallCheck = Physics2D.OverlapCircle(wallCheck_left.transform.position, 0.1f, wallLayerMask))
+                {
+                    jumpCount = 2;
+                    animator.SetBool("isRide", true);
+                    if (!facingright && Input.GetAxisRaw("Horizontal") < 0)
+                    {
+                        if (wallCheck)
+                            HandlewallSliding();
+                    }
+                }
+                else
+                {
+                    animator.SetBool("isRide", false);
+                    isWallSliding = false;
+                }
+            }
+        }
+ 
+        if( !wallCheck && !animator.GetBool("isJumping"))
+        {
+            isWallSliding = false;
+        }
+    }
+    void HandlewallSliding()
+    {
+        rigid.velocity = new Vector2(rigid.velocity.x, -5.0f);
+
+        if (facingright)
+        {
+            Instantiate(dustEffect, new Vector3(transform.position.x + 0.5f, transform.position.y - 0.35f
+                        , transform.position.z), Quaternion.identity);
+            spriteRenderer.flipX = true;
+        }
+        else if (!facingright)
+        {
+            Instantiate(dustEffect, new Vector3(transform.position.x - 0.5f, transform.position.y - 0.35f
+                        , transform.position.z), Quaternion.identity);
+            spriteRenderer.flipX = false;
+        }
+
+        isWallSliding = true;
+
+    }
+    void FixedUpdate()
+    {
+        Move();
+        Jump();
+        Shoot();
+    }
+
+    void Move()
+    {
+        Vector3 moveVelocity = Vector3.zero;
+
+        if ( inputLeft)
+        {
+            moveVelocity = Vector3.left;
+
+            spriteRenderer.flipX = true;
+            facingright = false;
+            
+        }
+        else if (inputRight)
+        {
+            moveVelocity = Vector3.right;
+
+            spriteRenderer.flipX = false;
+            facingright = true;
+        }
+
+        transform.position += moveVelocity * movePower * Time.deltaTime;
+    }
+
+    void Jump()
+    {
+        if (!isJumping)
+            return;// 이미 점프 중이라면 돌아감
+        rigid.velocity = Vector2.zero;
+        Vector2 jumpVelocity = new Vector2(0, jumpPower);
+        rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
+        jumpCount--;
+        isJumping = false;        
+    }
+
+    void Die()
+    {
+        animator.SetTrigger("Death");
+    }
+
+    void Shoot()
+    {
+        if (!isShoot)
+            return;
+        shootTimer = 5.0f;
+        if (shootTimer > shootDelay)
+        {
+            if (spriteRenderer.flipX)
+            {
+                Instantiate(Bullet, new Vector3(transform.position.x - 2.5f, transform.position.y - 0.35f
+                        , transform.position.z), Quaternion.identity);
+                isShoot = false;
+                shootTimer = 0;
+            }
+            else
+            {
+                Instantiate(Bullet, new Vector3(transform.position.x + 2.5f, transform.position.y - 0.35f
+                        , transform.position.z), Quaternion.identity);
+                isShoot = false;
+                shootTimer = 0;
+            }
+        }
+        shootTimer += Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //Debug.Log("Attach : " + other.gameObject.layer);
+
+        if (other.gameObject.layer == 9)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isRide", false);
+            doubleJump = false;
+            Instantiate(dustEffect, new Vector3(transform.position.x, transform.position.y - 2.5f
+                    , transform.position.z), Quaternion.identity);
+            jumpCount = 2;
+            wallCheck = false;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        //Debug.Log("Attach : " + other.gameObject.layer);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)//몬스터랑 충돌시
+    {
+        
+        if (other.gameObject.tag == "Monster")
+        {
+            Mon_Move monster = other.gameObject.GetComponent<Mon_Move>();
+            //monster.Die();
+            Vector2 killVelocity = new Vector2(0, 0);
+            if (transform.localScale.x < 0)
+            {
+                killVelocity = new Vector2(-10f, 0);
+                animator.SetTrigger("Hit");
+                Health_Power--;
+            }
+            else if (transform.localScale.x > 0)
+            {
+                killVelocity = new Vector2(10f, 0);
+                animator.SetTrigger("Hit");
+                Health_Power--;
+            }
+            rigid.AddForce(killVelocity, ForceMode2D.Impulse);
+            if (Health_Power <= 0)
+            {
+                Die();
+            }
+            isUnBeatTime = true;
+            StartCoroutine("UnBeatTime");
+        }
+    }
+    IEnumerator UnBeatTime()//무적시간 코루틴
+    {
+        SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        int countTime = 0;
+        while (countTime < 10)
+        {
+            if (countTime % 2 == 0)
+            {
+                spriteRenderer.color = new Color32(255, 255, 255, 90);
+            }
+            else
+                spriteRenderer.color = new Color32(255, 255, 255, 180);
+            yield return new WaitForSeconds(0.2f);
+            countTime++;
+        }
+        spriteRenderer.color = new Color32(255, 255, 255, 255);
+        isUnBeatTime = false;
+        yield return null;
+    }
+}
