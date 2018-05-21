@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
     public bool inputJump = false;
     public bool inputAttack = false;
     public bool inputDash = false;
+    public bool isAttack = false;
 
     public GameObject dustEffect;
     public GameObject Bullet;
@@ -44,11 +45,12 @@ public class Player : MonoBehaviour {
 
     float slideTimer = 0.0f;
     float shootTimer = 0.0f;
+    float AttackTime = 0.0f;
     
 	// Use this for initialization
 	void Start () {
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        animator = gameObject.GetComponentInChildren<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
@@ -61,26 +63,25 @@ public class Player : MonoBehaviour {
     void Update()
     {
         // 캐릭터 Idle,왼쪽이동,오른쪽이동
-        if ((!inputRight && !inputLeft))
+        if (Input.GetAxisRaw("Horizontal") == 0)
         {
             animator.SetBool("isMoving", false);
         }
-        else if (inputLeft)
+        else if ((Input.GetAxisRaw("Horizontal") > 0))
         {
             animator.SetBool("isMoving", true);
-
         }
-        else if (inputRight)
+        else if ( (Input.GetAxisRaw("Horizontal") < 0))
         {
             animator.SetBool("isMoving", true);
         }
 
         // 캐릭터 점프
-        if(!inputJump)
-        {
-            animator.SetBool("isJumping", false);
-        }
-        else if (inputJump && jumpCount > 0)
+        //if(!inputJump || Input.GetButtonDown("Jump"))
+        //{
+        //    animator.SetBool("isJumping", false);
+        //}
+        if ((Input.GetButtonDown("Jump")) && jumpCount > 0)
         {
             isJumping = true; // 점프 상태 true
             // 먼지 Effect를 캐릭터 위치에 생성
@@ -89,23 +90,23 @@ public class Player : MonoBehaviour {
             animator.SetBool("isJumping", true); // 점프 상태임을 animator에서 확인
             animator.SetTrigger("doJumping"); // 점프 애니메이션 실행
             animator.SetBool("isRide", false);
-            inputJump = false;
+            //inputJump = false;
         }
 
         // 캐릭터 슬라이딩
-        if (!inputDash)
-        {
-            animator.SetBool("isSliding", false);
-        }
-        else if (inputDash && !animator.GetBool("isSliding"))
+        //if (!inputDash)
+        //{
+        //    animator.SetBool("isSliding", false);
+        //}
+        if (Input.GetButtonDown("Fire2") && !animator.GetBool("isSliding"))
         {
             slideTimer = 0f; // 슬라이딩 시간 0으로 초기화
             isSliding = true; // 슬라이딩 상태 true
             animator.SetBool("isSliding", true); // 슬라이딩 애니메이션 실행
 
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            SlideCollider.GetComponent<BoxCollider2D>().enabled = true;
-            inputDash = false;
+            SlideCollider.GetComponent<CircleCollider2D>().enabled = true;
+            //inputDash = false;
         }
 
         // 캐릭터 슬라이딩 동작
@@ -123,7 +124,7 @@ public class Player : MonoBehaviour {
                 movePower = 7.5f;
 
                 gameObject.GetComponent<BoxCollider2D>().enabled = true; // 원래 크기의 히트박스
-                SlideCollider.GetComponent<BoxCollider2D>().enabled = false; // 슬라이딩할때 히트박스
+                SlideCollider.GetComponent<CircleCollider2D>().enabled = false; // 슬라이딩할때 히트박스
             }
             // 사용자가 임의로 멈추면 슬라이딩 멈춘다.
             if (Input.GetAxisRaw("Horizontal") == 0)
@@ -133,21 +134,50 @@ public class Player : MonoBehaviour {
                 movePower = 7.5f;
 
                 gameObject.GetComponent<BoxCollider2D>().enabled = true;  // 원래 크기의 히트박스
-                SlideCollider.GetComponent<BoxCollider2D>().enabled = false; // 슬라이딩할때 히트박스
+                SlideCollider.GetComponent<CircleCollider2D>().enabled = false; // 슬라이딩할때 히트박스
             }
         }
 
         //  캐릭터 탄환발사
-        if (!inputAttack)
+        //if (!inputAttack)
+        //{
+        //    animator.SetBool("isShoot", false);            
+        //}
+        //else if (inputAttack && !isShoot)
+        //{
+        //    isShoot = true;
+        //    inputAttack = false;
+        //}
+        // 캐릭터 공격
+        if (Input.GetButtonDown("Fire1") && !isAttack)
         {
-            animator.SetBool("isShoot", false);            
-        }
-        else if (inputAttack && !isShoot)
-        {
-            isShoot = true;
-            inputAttack = false;
+            animator.SetBool("Attack", true);
+            isAttack = true;
         }
 
+        if (isAttack)
+        {
+            if(animator.GetInteger("AttackState") == 4)
+            {
+
+            }
+            AttackTime += Time.deltaTime;
+            if ( AttackTime >= 0.3f)
+            {
+                animator.SetBool("Attack", false);
+                animator.SetInteger("AttackState", 0);
+                isAttack = false;
+                AttackTime = 0;
+            }
+            else
+            {
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Attack();
+                    AttackTime = 0;
+                }
+            }
+        }
         // 캐릭터 벽 타기
         if (animator.GetBool("isJumping"))
         {
@@ -226,7 +256,7 @@ public class Player : MonoBehaviour {
     {
         Vector3 moveVelocity = Vector3.zero;
 
-        if ( inputLeft)
+        if (inputLeft || (Input.GetAxisRaw("Horizontal") < 0))
         {
             moveVelocity = Vector3.left;
 
@@ -234,7 +264,7 @@ public class Player : MonoBehaviour {
             facingright = false;
             
         }
-        else if (inputRight)
+        else if (inputRight || (Input.GetAxisRaw("Horizontal") > 0))
         {
             moveVelocity = Vector3.right;
 
@@ -243,6 +273,30 @@ public class Player : MonoBehaviour {
         }
 
         transform.position += moveVelocity * movePower * Time.deltaTime;
+    }
+
+    void Attack()
+    {    
+        
+        switch (animator.GetInteger("AttackState"))
+        {
+            case 1:
+                animator.SetInteger("AttackState", 2);
+                break;
+            case 2:
+                animator.SetInteger("AttackState", 3);
+                break;
+            case 3:
+                animator.SetInteger("AttackState", 4);
+                break;
+            case 4:
+                animator.SetInteger("AttackState", 0);
+                break;
+            default:
+                animator.SetInteger("AttackState", 1);
+                break;
+        }
+        
     }
 
     void Jump()
@@ -355,4 +409,6 @@ public class Player : MonoBehaviour {
         isUnBeatTime = false;
         yield return null;
     }
+
+    
 }
