@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Managers
   - HPbar
+  - Power
   layers:
   - Default
   - TransparentFX

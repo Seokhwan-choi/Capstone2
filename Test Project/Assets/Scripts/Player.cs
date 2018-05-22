@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -42,6 +43,9 @@ public class Player : MonoBehaviour {
     public bool wallCheck;
     public LayerMask wallLayerMask;
 
+    public GameObject PowerMagnet;
+    public Text PowerCounter;
+
     [SerializeField]
     GameObject SlideCollider;
 
@@ -49,6 +53,8 @@ public class Player : MonoBehaviour {
     float shootTimer = 0.0f;
     float AttackTime = 0.0f;
     float HoldTime = 0.0f;
+
+    int PowerNumber;
     
 	// Use this for initialization
 	void Start () {
@@ -286,6 +292,10 @@ public class Player : MonoBehaviour {
         {
             isWallSliding = false;
         }
+
+        // Power magnet
+        PowerCounter.text = PowerNumber.ToString();
+        PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y);
     }
     // 캐릭터 벽 타기
     void HandlewallSliding()
@@ -384,7 +394,7 @@ public class Player : MonoBehaviour {
         }
 
     }
-
+    // 캐릭터 점프
     void Jump()
     {
         if (!isJumping)
@@ -396,11 +406,13 @@ public class Player : MonoBehaviour {
         jumpCount--;      
     }
 
+    // 쥬금
     void Die()
     {
         animator.SetTrigger("Death");
     }
 
+    // 캐릭터 총알발사
     void Shoot()
     {
         if (!isShoot)
@@ -426,6 +438,7 @@ public class Player : MonoBehaviour {
         shootTimer += Time.deltaTime;
     }
 
+    // 바닥 밟았을 때
     void OnTriggerEnter2D(Collider2D other)
     {
         //Debug.Log("Attach : " + other.gameObject.layer);
@@ -442,6 +455,12 @@ public class Player : MonoBehaviour {
             wallCheck = false;
             rigid.gravityScale = 1.0f;
         }
+
+        if (other.gameObject.tag.Equals("Power"))
+        {
+            Destroy(other.gameObject);
+            PowerNumber += 1;
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -457,16 +476,18 @@ public class Player : MonoBehaviour {
             Mon_Move monster = other.gameObject.GetComponent<Mon_Move>();
             //monster.Die();
             Vector2 killVelocity = new Vector2(0, 0);
-            if (transform.localScale.x < 0)
+            if (!facingright)
             {
                 killVelocity = new Vector2(-10f, 0);
                 animator.SetTrigger("Hit");
+                spriteRenderer.flipX = false;
                 Health_Power--;
             }
-            else if (transform.localScale.x > 0)
+            else if (facingright)
             {
                 killVelocity = new Vector2(10f, 0);
                 animator.SetTrigger("Hit");
+                spriteRenderer.flipX = true;
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
