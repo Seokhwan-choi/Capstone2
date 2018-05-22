@@ -30,7 +30,9 @@ public class Player : MonoBehaviour {
     public bool inputJump = false;
     public bool inputAttack = false;
     public bool inputDash = false;
+
     public bool isAttack = false;
+    public bool isJumpCombo = false;
 
     public GameObject dustEffect;
     public GameObject Bullet;
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour {
     float slideTimer = 0.0f;
     float shootTimer = 0.0f;
     float AttackTime = 0.0f;
+    float HoldTime = 0.0f;
     
 	// Use this for initialization
 	void Start () {
@@ -56,7 +59,6 @@ public class Player : MonoBehaviour {
         ui.init();
         HPbar hp = GameObject.FindGameObjectWithTag("HPbar").GetComponent<HPbar>();
         hp.init();
-
 	}
 
     // Update is called once per frame
@@ -148,18 +150,22 @@ public class Player : MonoBehaviour {
         //    isShoot = true;
         //    inputAttack = false;
         //}
+
         // 캐릭터 공격
-        if (Input.GetButtonDown("Fire1") && !isAttack)
+        if (Input.GetButtonDown("Fire1") && !isAttack && !animator.GetBool("isJumping") && !Input.GetButton("Up"))
         {
             animator.SetBool("Attack", true);
             isAttack = true;
         }
-
+        // 콤보 공격
         if (isAttack)
         {
             if(animator.GetInteger("AttackState") == 4)
             {
-
+                animator.SetBool("Attack", false);
+                animator.SetInteger("AttackState", 0);
+                isAttack = false;
+                AttackTime = 0;
             }
             AttackTime += Time.deltaTime;
             if ( AttackTime >= 0.3f)
@@ -175,6 +181,62 @@ public class Player : MonoBehaviour {
                 {
                     Attack();
                     AttackTime = 0;
+                }
+            }
+        }
+
+        // 캐릭터 적 띄우기
+        if(Input.GetButtonDown("Fire1") && Input.GetButton("Up") && !isJumpCombo && !animator.GetBool("isJumping") )
+        {
+            
+            animator.SetBool("JumpUpper", true);
+            animator.SetBool("isJumping", true);
+            isJumpCombo = true;
+
+            rigid.velocity = Vector2.zero;
+            Vector2 jumpVelocity = new Vector2(0, jumpPower);
+            rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
+            jumpCount = 0;
+         
+        }
+        // 점프 중일 때 공격
+        if(Input.GetButtonDown("Fire1") && animator.GetBool("isJumping") &&!isJumpCombo)
+        {
+            animator.SetBool("JumpUpper", true);
+            animator.SetInteger("JumpState", 1);
+            isJumpCombo = true;
+            jumpCount = 0;
+        }
+        // 캐릭터 점프 콤보
+        if (isJumpCombo)
+        {          
+            if (animator.GetInteger("JumpState") == 4)
+            {
+                animator.SetBool("JumpUpper", false);
+                animator.SetInteger("JumpState", 0);
+                isJumpCombo = false;
+                AttackTime = 0;
+                rigid.gravityScale = 2.0f;
+            }
+            AttackTime += Time.deltaTime;
+            if (AttackTime >= 0.75f)
+            {
+                animator.SetBool("JumpUpper", false);
+                animator.SetInteger("JumpState", 0);
+                isJumpCombo = false;
+                AttackTime = 0;
+                if (animator.GetBool("isJumping"))
+                {
+                    rigid.gravityScale = 1.0f;
+                }
+            }
+            else
+            {
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    JumpAttack();
+                    AttackTime = 0;
+                    rigid.gravityScale = 0.25f;
                 }
             }
         }
@@ -225,6 +287,7 @@ public class Player : MonoBehaviour {
             isWallSliding = false;
         }
     }
+    // 캐릭터 벽 타기
     void HandlewallSliding()
     {
         rigid.velocity = new Vector2(rigid.velocity.x, -5.0f);
@@ -251,7 +314,7 @@ public class Player : MonoBehaviour {
         Jump();
         Shoot();
     }
-
+    // 캐릭터 이동
     void Move()
     {
         Vector3 moveVelocity = Vector3.zero;
@@ -274,7 +337,7 @@ public class Player : MonoBehaviour {
 
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
-
+    // 캐릭터 콤보공격
     void Attack()
     {    
         
@@ -298,6 +361,29 @@ public class Player : MonoBehaviour {
         }
         
     }
+    // 캐릭터 점프 콤보공격
+    void JumpAttack()
+    {
+        switch (animator.GetInteger("JumpState"))
+        {
+            case 1:
+                animator.SetInteger("JumpState", 2);
+                break;
+            case 2:
+                animator.SetInteger("JumpState", 3);
+                break;
+            case 3:
+                animator.SetInteger("JumpState", 4);
+                break;
+            case 4:
+                animator.SetInteger("JumpState", 0);
+                break;
+            default:
+                animator.SetInteger("JumpState", 1);
+                break;
+        }
+
+    }
 
     void Jump()
     {
@@ -306,8 +392,8 @@ public class Player : MonoBehaviour {
         rigid.velocity = Vector2.zero;
         Vector2 jumpVelocity = new Vector2(0, jumpPower);
         rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
-        jumpCount--;
-        isJumping = false;        
+        isJumping = false;
+        jumpCount--;      
     }
 
     void Die()
@@ -352,7 +438,9 @@ public class Player : MonoBehaviour {
             Instantiate(dustEffect, new Vector3(transform.position.x, transform.position.y - 2.5f
                     , transform.position.z), Quaternion.identity);
             jumpCount = 2;
+            isJumping = false;
             wallCheck = false;
+            rigid.gravityScale = 1.0f;
         }
     }
 
