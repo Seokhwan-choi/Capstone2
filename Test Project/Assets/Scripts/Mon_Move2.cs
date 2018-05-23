@@ -140,7 +140,7 @@ public class Mon_Move2 : MonoBehaviour
         if (other.gameObject.tag == "Attack_check")
         {
             M_Health--;
-            //StopCoroutine("Attack");
+            StopCoroutine("Attack");
             checkTime += Time.deltaTime;
             //isHiting = true;
             //animator.SetBool("isHiting", true);
