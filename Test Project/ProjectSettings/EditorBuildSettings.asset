@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Cha.unity
     guid: 16dfb3552d9c82c44a704dc1bc6d9025
+  - enabled: 1
+    path: Assets/Test.unity
+    guid: 6a307f5d981931d44b58d2c3a7d3df8b
   m_configObjects: {}
