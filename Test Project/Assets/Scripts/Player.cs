@@ -13,7 +13,8 @@ public class Player : MonoBehaviour {
     public int Health_Power = 5;
 
     Rigidbody2D rigid;
-    public SpriteRenderer spriteRenderer;
+    Animator animator;
+    SpriteRenderer spriteRenderer;
 
     Vector3 movement;
 

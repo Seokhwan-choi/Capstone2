@@ -157,6 +157,16 @@ Prefab:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 58518955607153252, guid: 0c14913c41403c643b24f09a4a6c3989,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.0884043
+      objectReference: {fileID: 0}
+    - target: {fileID: 58518955607153252, guid: 0c14913c41403c643b24f09a4a6c3989,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.2927481
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c14913c41403c643b24f09a4a6c3989, type: 2}
   m_IsPrefabAsset: 0
@@ -678,6 +688,21 @@ Prefab:
         type: 2}
       propertyPath: m_projectionMatrixMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 58312253280024408, guid: 5395b35fa461aca49a893a587ded6d44,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: 0.11000776
+      objectReference: {fileID: 0}
+    - target: {fileID: 58312253280024408, guid: 5395b35fa461aca49a893a587ded6d44,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.52171564
+      objectReference: {fileID: 0}
+    - target: {fileID: 58312253280024408, guid: 5395b35fa461aca49a893a587ded6d44,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 0.37002945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5395b35fa461aca49a893a587ded6d44, type: 2}
