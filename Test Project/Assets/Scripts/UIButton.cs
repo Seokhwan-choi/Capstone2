@@ -28,6 +28,14 @@ public class UIButton : MonoBehaviour {
     {
         playerScript.inputRight = false;
     }
+    public void UpDown()
+    {
+        playerScript.inputUp = true;
+    }
+    public void Upup()
+    {
+        playerScript.inputUp = false;
+    }
     public void Attack()
     {
         playerScript.inputAttack = true;
