@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
         if (inputAttack && animator.GetBool("isJumping") && !isJumpCombo)
         {
             animator.SetBool("JumpUpper", true);
-            animator.SetInteger("JumpState", 1);
+            animator.SetInteger("JumpState", 2);
             isJumpCombo = true;
             jumpCount = 0;
 

@@ -25,6 +25,8 @@ public class Mon_Move2 : MonoBehaviour
     bool isHiting = false;
     bool isAttack = false;
 
+    float checkTime;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -59,13 +61,13 @@ public class Mon_Move2 : MonoBehaviour
             animator.SetBool("isAttacking2", false);
             
         }
-        else if(AttackType == 2 && Mathf.Abs(transform.position.x - playerScript.transform.position.x) < 2) // attack1
+        else if(AttackType == 2 ) // attack1
         {
             animator.SetBool("isAttacking1", true);
             animator.SetBool("isMoving", false);
             animator.SetBool("isAttacking2", false);
         }
-        else if(AttackType == 3 && Mathf.Abs(transform.position.x - playerScript.transform.position.x) > 4) // attack2
+        else if(AttackType == 3 ) // attack2
         {
             animator.SetBool("isMoving", false);
             animator.SetBool("isAttacking2", true);
@@ -134,26 +136,26 @@ public class Mon_Move2 : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         Jumpcount = 5;
-        if (other.gameObject.tag == "Player")
-        {
-            traceTarget = other.gameObject;
-            StopCoroutine("ChangeMovement");
-        }
 
         if (other.gameObject.tag == "Attack_check")
         {
             M_Health--;
-            if (M_Health > 0)
+            //StopCoroutine("Attack");
+            checkTime += Time.deltaTime;
+            //isHiting = true;
+            //animator.SetBool("isHiting", true);
+            animator.SetTrigger("isHit");
+            if (checkTime > 0.5f)
             {
-                isHiting = true;
-                animator.SetBool("isHiting", true);
-                animator.SetTrigger("isHiting");
+                StartCoroutine("Attack");
+                checkTime = 0;
             }
-            else if (M_Health == 0)
+
+            if (M_Health < 0)
             {
                 isDying = true;
-                animator.SetBool("isDying", true);
-                animator.SetTrigger("isDying");                
+                //animator.SetBool("isDying", true);
+                animator.SetTrigger("isDie");                
                 Destroy(this.gameObject, 1);
             }
         }
@@ -163,8 +165,13 @@ public class Mon_Move2 : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            isTracing = true;
-            StartCoroutine("Attack");
+            if (other.gameObject.tag == "Player")
+            {
+                traceTarget = other.gameObject;
+                StopCoroutine("ChangeMovement");
+                isTracing = true;
+                StartCoroutine("Attack");
+            }
         }
     }
     // 플레이어가 원 밖으로 나갈 때
@@ -180,31 +187,31 @@ public class Mon_Move2 : MonoBehaviour
 
         }
     }
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        StopAllCoroutines();
-        Vector2 killVelocity = new Vector2(0, 0);
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log(playerScript.animator.GetBool("Attack"));
-            if (playerScript.animator.GetBool("Attack") && playerScript.animator.GetInteger("Attackstate") == 4 || playerScript.animator.GetInteger("Attackstate") == 3 ||
-                playerScript.animator.GetInteger("Attackstate") == 2 || playerScript.animator.GetInteger("Attackstate") == 1 || playerScript.animator.GetInteger("Attackstate") == 0)
-            {
-                M_Health--;
-                if(other.transform.position.x > transform.position.x)
-                {
-                    killVelocity = new Vector2(-5f, 0);
-                }
-                else
-                {
-                    killVelocity = new Vector2(5f, 0);
-                }
-                animator.SetTrigger("isHit");
-                rigid.AddForce(killVelocity, ForceMode2D.Impulse);
-            }            
-        }
-        //animator.SetBool("isHitting", false);
-    }
+    //void OnCollisionEnter2D(Collision2D other)
+    //{
+    //    StopAllCoroutines();
+    //    Vector2 killVelocity = new Vector2(0, 0);
+    //    if (other.gameObject.tag == "Attack_Check")
+    //    {
+    //        Debug.Log(playerScript.animator.GetBool("Attack"));
+    //        if (playerScript.animator.GetBool("Attack") && playerScript.animator.GetInteger("Attackstate") == 4 || playerScript.animator.GetInteger("Attackstate") == 3 ||
+    //            playerScript.animator.GetInteger("Attackstate") == 2 || playerScript.animator.GetInteger("Attackstate") == 1 || playerScript.animator.GetInteger("Attackstate") == 0)
+    //        {
+    //            M_Health--;
+    //            if(other.transform.position.x > transform.position.x)
+    //            {
+    //                killVelocity = new Vector2(-5f, 0);
+    //            }
+    //            else
+    //            {
+    //                killVelocity = new Vector2(5f, 0);
+    //            }
+    //            animator.SetTrigger("isHit");
+    //            rigid.AddForce(killVelocity, ForceMode2D.Impulse);
+    //        }            
+    //    }
+    //    //animator.SetBool("isHitting", false);
+    //}
     public void Die()
     {        
         if (M_Health == 0)
