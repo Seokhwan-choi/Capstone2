@@ -11,10 +11,12 @@ public class Power : MonoBehaviour {
     bool find;
     bool check = false;
 
+    float checkTime;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
-        
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 	
 	// Update is called once per frame
@@ -32,6 +34,13 @@ public class Power : MonoBehaviour {
             Vector2 jumpVelocity = new Vector2(0, 7.5f);
             rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
+        }
+
+        checkTime += Time.deltaTime;
+        if(checkTime > 1f)
+        {
+            gameObject.GetComponent<CircleCollider2D>().enabled = true;
+            checkTime = 0;
         }
     }
 
