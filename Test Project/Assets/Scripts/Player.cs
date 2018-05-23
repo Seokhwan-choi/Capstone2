@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
     public int Health_Power = 5;
 
     Rigidbody2D rigid;
-    Animator animator;
+    public Animator animator;
     public SpriteRenderer spriteRenderer;
 
     Vector3 movement;
@@ -166,7 +166,7 @@ public class Player : MonoBehaviour {
         // 콤보 공격
         if (isAttack)
         {
-            if(animator.GetInteger("AttackState") == 4)
+            if (animator.GetInteger("AttackState") == 4)
             {
                 animator.SetBool("Attack", false);
                 animator.SetInteger("AttackState", 0);
@@ -470,11 +470,8 @@ public class Player : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D other)//몬스터랑 충돌시
     {
-        
-        if (other.gameObject.tag == "Monster")
+        if (other.gameObject.tag == "Monster" && animator.GetBool("Attack") == false)
         {
-            Mon_Move monster = other.gameObject.GetComponent<Mon_Move>();
-            //monster.Die();
             Vector2 killVelocity = new Vector2(0, 0);
             if (!facingright)
             {
@@ -487,7 +484,7 @@ public class Player : MonoBehaviour {
             {
                 killVelocity = new Vector2(10f, 0);
                 animator.SetTrigger("Hit");
-                spriteRenderer.flipX = true;
+                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
@@ -497,7 +494,7 @@ public class Player : MonoBehaviour {
             }
             isUnBeatTime = true;
             StartCoroutine("UnBeatTime");
-        }
+        }        
     }
     IEnumerator UnBeatTime()//무적시간 코루틴
     {
