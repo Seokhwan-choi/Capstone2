@@ -13,7 +13,6 @@ public class Player : MonoBehaviour {
     public int Health_Power = 5;
 
     Rigidbody2D rigid;
-    public Animator animator;
     public SpriteRenderer spriteRenderer;
 
     Vector3 movement;
@@ -475,16 +474,17 @@ public class Player : MonoBehaviour {
             Vector2 killVelocity = new Vector2(0, 0);
             if (!facingright)
             {
-                killVelocity = new Vector2(-10f, 0);
+                killVelocity = new Vector2(10f, 0);
+                
                 animator.SetTrigger("Hit");
-                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             else if (facingright)
             {
-                killVelocity = new Vector2(10f, 0);
-                animator.SetTrigger("Hit");
+                killVelocity = new Vector2(-10f, 0);
                 spriteRenderer.flipX = false;
+                animator.SetTrigger("Hit");
+
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
