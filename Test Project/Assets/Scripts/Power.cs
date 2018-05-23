@@ -9,11 +9,13 @@ public class Power : MonoBehaviour {
     Vector2 PlayerDirection;
     float timeStamp;
     bool find;
+    bool check = false;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -22,7 +24,16 @@ public class Power : MonoBehaviour {
             PlayerDirection = -(transform.position - Player.transform.position).normalized;
             rb.velocity = new Vector2(PlayerDirection.x, PlayerDirection.y) * 10f * (Time.time / timeStamp);
         }
-	}
+
+        if (!check)
+        {
+            check = true;
+            rb.velocity = Vector2.zero;
+            Vector2 jumpVelocity = new Vector2(0, 7.5f);
+            rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

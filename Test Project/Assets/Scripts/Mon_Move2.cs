@@ -140,7 +140,7 @@ public class Mon_Move2 : MonoBehaviour
             StopCoroutine("ChangeMovement");
         }
 
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Attack_check")
         {
             M_Health--;
             if (M_Health > 0)

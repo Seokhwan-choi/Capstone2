@@ -13,8 +13,11 @@ public class Player : MonoBehaviour {
     public int Health_Power = 5;
 
     Rigidbody2D rigid;
-    Animator animator;
-    SpriteRenderer spriteRenderer;
+
+
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
+
 
     Vector3 movement;
 
@@ -42,6 +45,9 @@ public class Player : MonoBehaviour {
     public GameObject wallCheck_left;
     public bool wallCheck;
     public LayerMask wallLayerMask;
+
+    public GameObject Attack_Check_right;
+    public GameObject Attack_Check_left;
 
     public GameObject PowerMagnet;
     public Text PowerCounter;
@@ -162,6 +168,15 @@ public class Player : MonoBehaviour {
         {
             animator.SetBool("Attack", true);
             isAttack = true;
+            if (facingright)
+            {
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+                
+            }
+            else if (!facingright)
+            {
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+            }
         }
         // 콤보 공격
         if (isAttack)
@@ -172,6 +187,9 @@ public class Player : MonoBehaviour {
                 animator.SetInteger("AttackState", 0);
                 isAttack = false;
                 AttackTime = 0;
+
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             AttackTime += Time.deltaTime;
             if ( AttackTime >= 0.3f)
@@ -180,6 +198,9 @@ public class Player : MonoBehaviour {
                 animator.SetInteger("AttackState", 0);
                 isAttack = false;
                 AttackTime = 0;
+
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             else
             {
@@ -187,6 +208,16 @@ public class Player : MonoBehaviour {
                 {
                     Attack();
                     AttackTime = 0;
+
+                    if (facingright)
+                    {
+                        Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+
+                    }
+                    else if (!facingright)
+                    {
+                        Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+                    }
                 }
             }
         }
@@ -203,7 +234,17 @@ public class Player : MonoBehaviour {
             Vector2 jumpVelocity = new Vector2(0, jumpPower);
             rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
             jumpCount = 0;
-         
+
+            if (facingright)
+            {
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+
+            }
+            else if (!facingright)
+            {
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+            }
+
         }
         // 점프 중일 때 공격
         if(Input.GetButtonDown("Fire1") && animator.GetBool("isJumping") &&!isJumpCombo)
@@ -212,6 +253,16 @@ public class Player : MonoBehaviour {
             animator.SetInteger("JumpState", 1);
             isJumpCombo = true;
             jumpCount = 0;
+
+            if (facingright)
+            {
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+
+            }
+            else if (!facingright)
+            {
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+            }
         }
         // 캐릭터 점프 콤보
         if (isJumpCombo)
@@ -223,6 +274,9 @@ public class Player : MonoBehaviour {
                 isJumpCombo = false;
                 AttackTime = 0;
                 rigid.gravityScale = 2.0f;
+
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             AttackTime += Time.deltaTime;
             if (AttackTime >= 0.75f)
@@ -235,6 +289,9 @@ public class Player : MonoBehaviour {
                 {
                     rigid.gravityScale = 1.0f;
                 }
+
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             else
             {
@@ -243,6 +300,16 @@ public class Player : MonoBehaviour {
                     JumpAttack();
                     AttackTime = 0;
                     rigid.gravityScale = 0.25f;
+
+                    if (facingright)
+                    {
+                        Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+
+                    }
+                    else if (!facingright)
+                    {
+                        Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+                    }
                 }
             }
         }
@@ -476,16 +543,15 @@ public class Player : MonoBehaviour {
             if (!facingright)
             {
                 killVelocity = new Vector2(10f, 0);
-                
                 animator.SetTrigger("Hit");
+                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             else if (facingright)
             {
                 killVelocity = new Vector2(-10f, 0);
-                spriteRenderer.flipX = false;
                 animator.SetTrigger("Hit");
-
+                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);

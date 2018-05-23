@@ -8,6 +8,8 @@ public class Mon_Move : MonoBehaviour {
     Vector3 movement;
     GameObject traceTarget;
 
+    public GameObject Power;
+
     int movementFlag = 0;
     public float movePower = 1f;
     public int creatureType;
@@ -97,22 +99,19 @@ public class Mon_Move : MonoBehaviour {
             traceTarget = other.gameObject;
             StopCoroutine("ChangeMovement");
         }
-        if(other.gameObject.tag == "Bullet")
+        if(other.gameObject.tag == "Attack_check")
         {
             M_Health--;
-            if(M_Health > 0)
-            {
-                isHiting = true;
-                animator.SetBool("isHiting", true);
-                animator.SetTrigger("isHiting");
-            }
-            else if (M_Health == 0)
+            isHiting = true;
+            animator.SetBool("isHiting", true);
+            animator.SetTrigger("isHiting");
+            if (M_Health < 0)
             {
                 isDying = true;
                 animator.SetBool("isDying", true);
                 animator.SetTrigger("isDying");
-                //animator.Play("Mon_Die");
-                Destroy(this.gameObject,1);
+                Instantiate(Power, transform.position, Quaternion.identity);
+                Destroy(this.gameObject,1f);
             }
         }
     }
