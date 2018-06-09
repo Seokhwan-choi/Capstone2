@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Mon_Move2 : MonoBehaviour
 {
 
-    Animator animator;    
+    Animator animator;
     GameObject traceTarget;
     Vector3 moveVelocity = Vector3.zero; //0,0,0으로 초기화    
     Vector3 movement;
@@ -14,7 +14,7 @@ public class Mon_Move2 : MonoBehaviour
     public Player playerScript;
 
     int movementFlag = 0;
-    public float movePower = 7f;
+    public float movePower = 5f;
     public int AttackType = 0;
     public int creatureType;
     public int M_Health = 20;
@@ -33,7 +33,7 @@ public class Mon_Move2 : MonoBehaviour
         playerScript = player.GetComponent<Player>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
-        StartCoroutine("ChangeMovement");        
+        StartCoroutine("ChangeMovement");
     }
 
     IEnumerator ChangeMovement() //움직이는 코루틴
@@ -54,26 +54,26 @@ public class Mon_Move2 : MonoBehaviour
     {
         AttackType = Random.Range(0, 20); // 0, 1 ,2
         /// 1 => 이동 2 => 공격(칼) 3 => 공격(대쉬,점프) 이외 => 가만히 있기
-        if(AttackType == 1) // move
+        if (AttackType == 1) // move
         {
             animator.SetBool("isMoving", true);
             animator.SetBool("isAttacking1", false);
             animator.SetBool("isAttacking2", false);
-            
+
         }
-        else if(AttackType == 2 ) // attack1
+        else if (AttackType == 2) // attack1
         {
             animator.SetBool("isAttacking1", true);
             animator.SetBool("isMoving", false);
             animator.SetBool("isAttacking2", false);
         }
-        else if(AttackType == 3 ) // attack2
+        else if (AttackType == 3) // attack2
         {
             animator.SetBool("isMoving", false);
             animator.SetBool("isAttacking2", true);
             animator.SetBool("isAttacking1", false);
             transform.position += moveVelocity * 4 * Time.deltaTime;
-            if(Jumpcount > 0)
+            if (Jumpcount > 0)
             {
                 rigid.velocity = Vector2.zero;
                 Vector2 jumpVelocity = new Vector2(0, 6);
@@ -97,22 +97,38 @@ public class Mon_Move2 : MonoBehaviour
     }
     //움직이는 함수
     void Move()
-    {
+    {   
         moveVelocity = Vector3.zero;//초기화
         string dist = "";
-
+        //추적
         if (isTracing)
         {
+            Vector2 loc = traceTarget.transform.position - transform.position;
+            transform.position += (traceTarget.transform.position - transform.position).normalized * movePower * Time.deltaTime;
+            if(loc.x >= 0)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = -Mathf.Abs(scale.x);
+                transform.localScale = scale;
+            }
+            else
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x);
+                transform.localScale = scale;
+            }
+            /*
             Vector3 playerPos = traceTarget.transform.position;
             if (playerPos.x < transform.position.x)
                 dist = "Left";
             else if (playerPos.x > transform.position.x)
                 dist = "Right";
+                */
         }
         else
         {
             if (movementFlag == 1)
-            {                
+            {
                 dist = "Left";
             }
             else if (movementFlag == 2)
@@ -124,13 +140,14 @@ public class Mon_Move2 : MonoBehaviour
         {
             moveVelocity = Vector3.left; //(-1,0,0)
             transform.localScale = new Vector3(-2, 2, 1);
+            transform.position += moveVelocity * movePower * Time.deltaTime;
         }
         else if (dist == "Right")
         {
             moveVelocity = Vector3.right; //(-1,0,0)
             transform.localScale = new Vector3(2, 2, 1);
+            transform.position += moveVelocity * movePower * Time.deltaTime;
         }        
-        transform.position += moveVelocity * movePower * Time.deltaTime;
     }
     // 플레이어가 원안에 들어왔을 때 
     void OnTriggerEnter2D(Collider2D other)
@@ -155,7 +172,7 @@ public class Mon_Move2 : MonoBehaviour
             {
                 isDying = true;
                 //animator.SetBool("isDying", true);
-                animator.SetTrigger("isDie");                
+                animator.SetTrigger("isDie");
                 Destroy(this.gameObject, 1);
             }
         }
@@ -187,38 +204,18 @@ public class Mon_Move2 : MonoBehaviour
 
         }
     }
-    //void OnCollisionEnter2D(Collision2D other)
-    //{
-    //    StopAllCoroutines();
-    //    Vector2 killVelocity = new Vector2(0, 0);
-    //    if (other.gameObject.tag == "Attack_Check")
-    //    {
-    //        Debug.Log(playerScript.animator.GetBool("Attack"));
-    //        if (playerScript.animator.GetBool("Attack") && playerScript.animator.GetInteger("Attackstate") == 4 || playerScript.animator.GetInteger("Attackstate") == 3 ||
-    //            playerScript.animator.GetInteger("Attackstate") == 2 || playerScript.animator.GetInteger("Attackstate") == 1 || playerScript.animator.GetInteger("Attackstate") == 0)
-    //        {
-    //            M_Health--;
-    //            if(other.transform.position.x > transform.position.x)
-    //            {
-    //                killVelocity = new Vector2(-5f, 0);
-    //            }
-    //            else
-    //            {
-    //                killVelocity = new Vector2(5f, 0);
-    //            }
-    //            animator.SetTrigger("isHit");
-    //            rigid.AddForce(killVelocity, ForceMode2D.Impulse);
-    //        }            
-    //    }
-    //    //animator.SetBool("isHitting", false);
-    //}
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        isTracing = false;
+    }    
     public void Die()
-    {        
+    {
         if (M_Health == 0)
         {
             StopCoroutine("ChangeMovement");
             isDying = true;
             animator.SetTrigger("isDie");
+            SceneManager.LoadScene("Retry");
             Destroy(gameObject, 1f);
         }
     }

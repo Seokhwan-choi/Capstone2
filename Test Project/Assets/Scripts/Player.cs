@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -32,8 +33,9 @@ public class Player : MonoBehaviour
     public bool facingright = false;
     public bool inputLeft = false;
     public bool inputRight = false;
-    public bool inputUp = false;
     public bool inputJump = false;
+    public bool inputUp = false;
+    public bool inputDown = false;
     public bool inputAttack = false;
     public bool inputDash = false;
 
@@ -80,15 +82,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         // 캐릭터 Idle,왼쪽이동,오른쪽이동
-        if ((!inputRight && !inputLeft))
+        if (Input.GetAxisRaw("Horizontal") == 0)
         {
             animator.SetBool("isMoving", false);
         }
-        else if (inputLeft)
+        else if ((Input.GetAxisRaw("Horizontal") > 0))
         {
             animator.SetBool("isMoving", true);
         }
-        else if (inputRight)
+        else if ((Input.GetAxisRaw("Horizontal") < 0))
         {
             animator.SetBool("isMoving", true);
         }
@@ -98,7 +100,7 @@ public class Player : MonoBehaviour
         //{
         //    animator.SetBool("isJumping", false);
         //}
-        if ((inputJump) && jumpCount > 0)
+        if ((Input.GetButtonDown("Jump")) && jumpCount > 0)
         {
             isJumping = true; // 점프 상태 true
             // 먼지 Effect를 캐릭터 위치에 생성
@@ -107,7 +109,7 @@ public class Player : MonoBehaviour
             animator.SetBool("isJumping", true); // 점프 상태임을 animator에서 확인
             animator.SetTrigger("doJumping"); // 점프 애니메이션 실행
             animator.SetBool("isRide", false);
-            inputJump = false;
+            //inputJump = false;
         }
 
         // 캐릭터 슬라이딩
@@ -115,7 +117,7 @@ public class Player : MonoBehaviour
         //{
         //    animator.SetBool("isSliding", false);
         //}
-        if (inputDash && !animator.GetBool("isSliding"))
+        if (Input.GetButtonDown("Fire2") && !animator.GetBool("isSliding"))
         {
             slideTimer = 0f; // 슬라이딩 시간 0으로 초기화
             isSliding = true; // 슬라이딩 상태 true
@@ -123,7 +125,7 @@ public class Player : MonoBehaviour
 
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             SlideCollider.GetComponent<CircleCollider2D>().enabled = true;
-            inputDash = false;
+            //inputDash = false;
         }
 
         // 캐릭터 슬라이딩 동작
@@ -144,7 +146,7 @@ public class Player : MonoBehaviour
                 SlideCollider.GetComponent<CircleCollider2D>().enabled = false; // 슬라이딩할때 히트박스
             }
             // 사용자가 임의로 멈추면 슬라이딩 멈춘다.
-            if (inputRight && inputLeft)
+            if (Input.GetAxisRaw("Horizontal") == 0)
             {
                 isSliding = false;
                 animator.SetBool("isSliding", false);
@@ -167,19 +169,21 @@ public class Player : MonoBehaviour
         //}
 
         // 캐릭터 공격
-        if (inputAttack && !isAttack && !animator.GetBool("isJumping") && !inputUp)
+        if (Input.GetButtonDown("Fire1") && !isAttack && !animator.GetBool("isJumping") && !Input.GetButton("Up"))
         {
             animator.SetBool("Attack", true);
             isAttack = true;
             if (facingright)
             {
-                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;                
+                Attack_Check_right.GetComponent<CircleCollider2D>().enabled = true;
+                //animator.SetBool("isMoving", true);
+
             }
             else if (!facingright)
             {
-                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;                
+                Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
+                //animator.SetBool("isMoving", true);
             }
-            inputAttack = false;
         }
         // 콤보 공격
         if (isAttack)
@@ -187,7 +191,7 @@ public class Player : MonoBehaviour
             if (animator.GetInteger("AttackState") == 4)
             {
                 animator.SetBool("Attack", false);
-                animator.SetInteger("AttackState", 0);
+                animator.SetInteger("AttackState", 0);                
                 isAttack = false;
                 AttackTime = 0;
 
@@ -207,7 +211,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (inputAttack)
+                if (Input.GetButtonDown("Fire1"))
                 {
                     Attack();
                     AttackTime = 0;
@@ -226,7 +230,7 @@ public class Player : MonoBehaviour
         }
 
         // 캐릭터 적 띄우기
-        if (inputAttack && inputUp && !isJumpCombo && !animator.GetBool("isJumping"))
+        if (Input.GetButtonDown("Fire1") && Input.GetButton("Up") && !isJumpCombo && !animator.GetBool("isJumping"))
         {
 
             animator.SetBool("JumpUpper", true);
@@ -250,10 +254,10 @@ public class Player : MonoBehaviour
 
         }
         // 점프 중일 때 공격
-        if (inputAttack && animator.GetBool("isJumping") && !isJumpCombo)
+        if (Input.GetButtonDown("Fire1") && animator.GetBool("isJumping") && !isJumpCombo)
         {
             animator.SetBool("JumpUpper", true);
-            animator.SetInteger("JumpState", 2);
+            animator.SetInteger("JumpState", 1);
             isJumpCombo = true;
             jumpCount = 0;
 
@@ -266,7 +270,6 @@ public class Player : MonoBehaviour
             {
                 Attack_Check_left.GetComponent<CircleCollider2D>().enabled = true;
             }
-            inputAttack = false;
         }
         // 캐릭터 점프 콤보
         if (isJumpCombo)
@@ -299,7 +302,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (inputAttack)
+                if (Input.GetButtonDown("Fire1"))
                 {
                     JumpAttack();
                     AttackTime = 0;
@@ -326,7 +329,7 @@ public class Player : MonoBehaviour
                 {
                     jumpCount = 2;
                     animator.SetBool("isRide", true);
-                    if (facingright && inputRight)
+                    if (facingright && Input.GetAxisRaw("Horizontal") > 0)
                     {
                         if (wallCheck)
                             HandlewallSliding();
@@ -345,7 +348,7 @@ public class Player : MonoBehaviour
                 {
                     jumpCount = 2;
                     animator.SetBool("isRide", true);
-                    if (!facingright && inputLeft)
+                    if (!facingright && Input.GetAxisRaw("Horizontal") < 0)
                     {
                         if (wallCheck)
                             HandlewallSliding();
@@ -400,7 +403,7 @@ public class Player : MonoBehaviour
     {
         Vector3 moveVelocity = Vector3.zero;
 
-        if (inputLeft)
+        if (inputLeft || (Input.GetAxisRaw("Horizontal") < 0))
         {
             moveVelocity = Vector3.left;
 
@@ -408,7 +411,7 @@ public class Player : MonoBehaviour
             facingright = false;
 
         }
-        else if (inputRight)
+        else if (inputRight || (Input.GetAxisRaw("Horizontal") > 0))
         {
             moveVelocity = Vector3.right;
 
@@ -481,6 +484,7 @@ public class Player : MonoBehaviour
     void Die()
     {
         animator.SetTrigger("Death");
+        SceneManager.LoadScene("Retry");
     }
 
     // 캐릭터 총알발사
