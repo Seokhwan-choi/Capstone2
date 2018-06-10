@@ -74,8 +74,8 @@ public class Player : MonoBehaviour
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
-        HPbar hp = GameObject.FindGameObjectWithTag("HPbar").GetComponent<HPbar>();
-        hp.init();
+        Headhpbar_Player hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();
+        hps.init();
     }
 
     // Update is called once per frame

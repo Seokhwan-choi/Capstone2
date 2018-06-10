@@ -10,6 +10,7 @@ public class Mon_Move2 : MonoBehaviour
     Vector3 moveVelocity = Vector3.zero; //0,0,0으로 초기화    
     Vector3 movement;
     Rigidbody2D rigid;
+    Headhpbar hps;
     public GameObject player;
     public Player playerScript;
 
@@ -32,7 +33,9 @@ public class Mon_Move2 : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<Player>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        animator = gameObject.GetComponentInChildren<Animator>();
+        animator = gameObject.GetComponentInChildren<Animator>();        
+        hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar>();
+        hps.init();
         StartCoroutine("ChangeMovement");
     }
 
@@ -174,6 +177,7 @@ public class Mon_Move2 : MonoBehaviour
                 //animator.SetBool("isDying", true);
                 animator.SetTrigger("isDie");
                 Destroy(this.gameObject, 1);
+                Destroy(hps,1);
             }
         }
     }
