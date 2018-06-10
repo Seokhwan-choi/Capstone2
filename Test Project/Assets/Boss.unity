@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Monster: {fileID: 0}
-  MonScript: {fileID: 0}
+  MonScript: {fileID: 1696070813}
   HeadUp: {fileID: 262188602}
   HpBar: {fileID: 1586859005}
 --- !u!20 &339421306 stripped
@@ -7206,6 +7206,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1696070813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114787785389999188, guid: bd79f84204a79c1479887b41c8642178,
+    type: 2}
+  m_PrefabInternal: {fileID: 1826909239}
+  m_Script: {fileID: 11500000, guid: bea7dbc7748a55d4aba27ad56ec0a41e, type: 3}
 --- !u!1001 &1826909239
 Prefab:
   m_ObjectHideFlags: 0
