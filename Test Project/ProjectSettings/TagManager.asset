@@ -10,6 +10,8 @@ TagManager:
   - HPbar
   - Power
   - Attack_check
+  - Inventory
+  - Item
   layers:
   - Default
   - TransparentFX

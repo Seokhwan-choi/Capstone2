@@ -6,8 +6,7 @@ public class Mon_Move : MonoBehaviour {
 
     Animator animator;    
     Vector3 movement;
-    GameObject traceTarget;
-
+    GameObject traceTarget;    
     public GameObject Power;
 
     int movementFlag = 0;
@@ -102,16 +101,18 @@ public class Mon_Move : MonoBehaviour {
         if(other.gameObject.tag == "Attack_check")
         {
             M_Health--;
+            soundManager.instance.PlaySound();            
             isHiting = true;
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
-            if (M_Health < 0)
+            if (M_Health == 0)
             {
                 isDying = true;
+                soundManager2.instance.PlaySound();                
                 animator.SetBool("isDying", true);
                 animator.SetTrigger("isDying");
                 Instantiate(Power, transform.position, Quaternion.identity);
-                Destroy(this.gameObject,1f);
+                Destroy(this.gameObject,0.2f);
             }
         }
     }
