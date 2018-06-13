@@ -186,10 +186,13 @@ public class Mon_Move2 : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            traceTarget = other.gameObject;
-            StopCoroutine("ChangeMovement");
-            isTracing = true;
-            StartCoroutine("Attack");
+            if (other.gameObject.tag == "Player")
+            {
+                traceTarget = other.gameObject;
+                StopCoroutine("ChangeMovement");
+                isTracing = true;
+                StartCoroutine("Attack");
+            }
         }
     }
     // 플레이어가 원 밖으로 나갈 때

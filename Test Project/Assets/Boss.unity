@@ -379,19 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Monster: {fileID: 0}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  MonScript: {fileID: 2093489112}
-=======
   MonScript: {fileID: 1696070813}
->>>>>>> 8b0f7f32bd1b87b179868482d680909ca198d524
-=======
-  MonScript: {fileID: 1696070813}
->>>>>>> 8b0f7f32bd1b87b179868482d680909ca198d524
-=======
-  MonScript: {fileID: 1696070813}
->>>>>>> 8b0f7f32bd1b87b179868482d680909ca198d524
   HeadUp: {fileID: 262188602}
   HpBar: {fileID: 1586859005}
 --- !u!20 &339421306 stripped
@@ -493,7 +481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &401507087
 Transform:
   m_ObjectHideFlags: 0
@@ -7434,12 +7422,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 11.014904}
   m_EdgeRadius: 0
---- !u!114 &2093489112 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114787785389999188, guid: bd79f84204a79c1479887b41c8642178,
-    type: 2}
-  m_PrefabInternal: {fileID: 1826909239}
-  m_Script: {fileID: 11500000, guid: bea7dbc7748a55d4aba27ad56ec0a41e, type: 3}
 --- !u!114 &2115867142 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114031582052557802, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b,

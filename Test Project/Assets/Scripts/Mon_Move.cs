@@ -8,7 +8,8 @@ public class Mon_Move : MonoBehaviour {
     Animation ani;
     Rigidbody2D rigid;
     Vector3 movement;
-    GameObject traceTarget;    
+    GameObject traceTarget;
+
     public GameObject Power;
 
     int movementFlag = 0;
@@ -108,11 +109,9 @@ public class Mon_Move : MonoBehaviour {
         if(other.gameObject.tag == "Attack_check")
         {
             M_Health--;
-            soundManager.instance.PlaySound();            
             isHiting = true;
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
-
             movePower = 0f;
             mon = new Vector2(3f, 0);
             rigid.AddForce(mon, ForceMode2D.Impulse);
@@ -147,15 +146,11 @@ public class Mon_Move : MonoBehaviour {
             mon = new Vector2(-3f, 0);
             rigid.AddForce(mon, ForceMode2D.Impulse);
             movePower = 1f;
-
-            if (M_Health == 0)
-
+            if (M_Health < 0)
             {
                 isDying = true;
-                soundManager2.instance.PlaySound();                
                 animator.SetBool("isDying", true);
                 animator.SetTrigger("isDying");
-
                 while (true)
                 {
                     Death_time += Time.deltaTime;
@@ -166,7 +161,7 @@ public class Mon_Move : MonoBehaviour {
                         break;
                     }
                 }
-
+                
             }
         }
 
