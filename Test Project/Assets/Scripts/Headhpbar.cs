@@ -21,5 +21,10 @@ public class Headhpbar : MonoBehaviour {
 	void Update () {
         HpBar.value = MonScript.M_Health;
         HpBar.transform.position = HeadUp.transform.position;
+        if(MonScript.M_Health == 0)
+        {
+            Destroy(this.gameObject);
+            Debug.Log(MonScript.M_Health);
+        }
 	}
 }

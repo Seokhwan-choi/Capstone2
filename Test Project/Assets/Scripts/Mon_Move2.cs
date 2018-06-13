@@ -7,13 +7,16 @@ public class Mon_Move2 : MonoBehaviour
 
     Animator animator;
     GameObject traceTarget;
-    Vector3 moveVelocity = Vector3.zero; //0,0,0으로 초기화    
+    public Vector3 moveVelocity = Vector3.zero; //0,0,0으로 초기화    
     Vector3 movement;
     Rigidbody2D rigid;
     Headhpbar hps;
+    
     public GameObject player;
     public Player playerScript;
 
+    public GameObject bullet;
+    public Transform firePos;
     int movementFlag = 0;
     public float movePower = 5f;
     public int AttackType = 0;
@@ -35,7 +38,7 @@ public class Mon_Move2 : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();        
         hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar>();
-        hps.init();
+        hps.init();        
         StartCoroutine("ChangeMovement");
     }
 
@@ -55,7 +58,7 @@ public class Mon_Move2 : MonoBehaviour
     }
     IEnumerator Attack() // 공격 코루틴
     {
-        AttackType = Random.Range(0, 20); // 0, 1 ,2
+        AttackType = Random.Range(0, 200); // 0, 1 ,2
         /// 1 => 이동 2 => 공격(칼) 3 => 공격(대쉬,점프) 이외 => 가만히 있기
         if (AttackType == 1) // move
         {
@@ -84,6 +87,13 @@ public class Mon_Move2 : MonoBehaviour
             }
             Jumpcount--;
         }
+        else if (AttackType == 4)
+        {
+            animator.SetBool("isMissile", true);
+            Fire();
+            animator.SetBool("isMoving", false);
+            animator.SetBool("isMissile", false);
+        }
         else
         {
             animator.SetBool("isMoving", false);
@@ -92,11 +102,10 @@ public class Mon_Move2 : MonoBehaviour
         }
         yield return new WaitForSeconds(5);
         StartCoroutine("Attack");
-    }
+    }      
     void FixedUpdate()
     {
-        Move();
-        Die();
+        Move();        
     }
     //움직이는 함수
     void Move()
@@ -120,13 +129,6 @@ public class Mon_Move2 : MonoBehaviour
                 scale.x = Mathf.Abs(scale.x);
                 transform.localScale = scale;
             }
-            /*
-            Vector3 playerPos = traceTarget.transform.position;
-            if (playerPos.x < transform.position.x)
-                dist = "Left";
-            else if (playerPos.x > transform.position.x)
-                dist = "Right";
-                */
         }
         else
         {
@@ -161,22 +163,21 @@ public class Mon_Move2 : MonoBehaviour
         {
             M_Health--;
             StopCoroutine("Attack");
-            checkTime += Time.deltaTime;
-            //isHiting = true;
-            //animator.SetBool("isHiting", true);
+            checkTime += Time.deltaTime;            
             animator.SetTrigger("isHit");
             if (checkTime > 0.5f)
             {
                 StartCoroutine("Attack");
                 checkTime = 0;
             }
-
+            transform.position += moveVelocity * 2 * Time.deltaTime;
             if (M_Health < 0)
             {
-                isDying = true;
-                //animator.SetBool("isDying", true);
+                isDying = true;                
                 animator.SetTrigger("isDie");
+                StopCoroutine("ChangeMovement");
                 Destroy(this.gameObject, 1);
+                SceneManager.LoadScene("Retry");
                 Destroy(hps,1);
             }
         }
@@ -211,16 +212,14 @@ public class Mon_Move2 : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         isTracing = false;
-    }    
-    public void Die()
+    }
+    void Fire()
     {
-        if (M_Health == 0)
-        {
-            StopCoroutine("ChangeMovement");
-            isDying = true;
-            animator.SetTrigger("isDie");
-            SceneManager.LoadScene("Retry");
-            Destroy(gameObject, 1f);
-        }
+        CreateBullet();
+    }
+
+    void CreateBullet()
+    {
+        Instantiate(bullet, firePos.position, firePos.rotation);
     }
 }

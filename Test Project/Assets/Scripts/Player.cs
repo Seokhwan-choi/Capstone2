@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
     public GameObject PowerMagnet;
     public Text PowerCounter;
 
+    public Headhpbar_Player hps;
     [SerializeField]
     GameObject SlideCollider;
 
@@ -75,7 +76,7 @@ public class Player : MonoBehaviour
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
-        Headhpbar_Player hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();
+        hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();
         hps.init();
     }
 
