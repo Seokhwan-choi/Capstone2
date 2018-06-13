@@ -276,19 +276,24 @@ public class Player : MonoBehaviour
         // 캐릭터 점프 콤보
         if (isJumpCombo)
         {
-            if (animator.GetInteger("JumpState") == 5)
+            if (animator.GetInteger("JumpState") == 4)
             {
                 animator.SetBool("JumpUpper", false);
                 animator.SetInteger("JumpState", 0);
                 isJumpCombo = false;
                 AttackTime = 0;
                 rigid.gravityScale = 3.0f;
+                if (ani.IsPlaying("Player_Boom"))
+                {
+                    movePower = 0.0f;
+                }
+                movePower = 7.5f;
 
                 Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
                 Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             AttackTime += Time.deltaTime;
-            if (AttackTime >= 0.75f)
+            if (AttackTime >= 0.4f)
             {
                 animator.SetBool("JumpUpper", false);
                 animator.SetInteger("JumpState", 0);
@@ -330,7 +335,7 @@ public class Player : MonoBehaviour
                 if (wallCheck = Physics2D.OverlapCircle(wallCheck_right.transform.position, 0.5f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isRride", true);
+                    animator.SetBool("isRide", true);
                     if (facingright && Input.GetAxisRaw("Horizontal") > 0)
                     {
                         if (wallCheck)
@@ -339,7 +344,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isRride", false);
+                    animator.SetBool("isRide", false); ;
                     isWallSliding = false;
                 }
 
@@ -349,7 +354,7 @@ public class Player : MonoBehaviour
                 if (wallCheck = Physics2D.OverlapCircle(wallCheck_left.transform.position, 0.1f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isLride", true);
+                    animator.SetBool("isRide", true);
                     if (!facingright && Input.GetAxisRaw("Horizontal") < 0)
                     {
                         if (wallCheck)
@@ -358,7 +363,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isLride", false);
+                    animator.SetBool("isRide", false); ;
                     isWallSliding = false;
                 }
             }
@@ -367,8 +372,12 @@ public class Player : MonoBehaviour
         if (!wallCheck && !animator.GetBool("isJumping"))
         {
             isWallSliding = false;
-            animator.SetBool("isRride", false);
-            animator.SetBool("isLride", false);
+            animator.SetBool("isRide", false);
+        }
+        // 죽음확인
+        if (Health_Power <= 0)
+        {
+            Die();
         }
 
         // Power magnet
@@ -538,6 +547,11 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             PowerNumber += 1;
         }
+
+        if (other.gameObject.tag.Equals("NoGround"))
+        {
+            Health_Power = 0;
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -563,10 +577,6 @@ public class Player : MonoBehaviour
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
-            if (Health_Power <= 0)
-            {
-                Die();
-            }
             isUnBeatTime = true;
             StartCoroutine("UnBeatTime");
         }

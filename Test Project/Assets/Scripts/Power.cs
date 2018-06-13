@@ -10,17 +10,14 @@ public class Power : MonoBehaviour {
     float timeStamp;
     bool find;
     bool check = false;
+    bool stop = false;
 
     float checkTime;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
-
-        rb.velocity = Vector2.zero;
-        Vector2 jumpVelocity = new Vector2(0, 7.5f);
-        rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 	
 	// Update is called once per frame
@@ -31,10 +28,27 @@ public class Power : MonoBehaviour {
             rb.velocity = new Vector2(PlayerDirection.x, PlayerDirection.y) * 10f * (Time.time / timeStamp);
         }
 
+        if (stop == false)
+        {
+            rb.velocity = Vector2.zero;
+            Vector2 jumpVelocity = new Vector2(0, 7.5f);
+            rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+        }
+
+        
+
+            checkTime += Time.deltaTime;
+        if (checkTime > 0.5f)
+        {
+            gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            stop = true;
+        }
+
+
         //if (!check)
         //{
         //    check = true;
-            
+
 
         //}
 
@@ -45,7 +59,7 @@ public class Power : MonoBehaviour {
         //    checkTime = 0;
         //}
     }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.name.Equals("Magnet"))
