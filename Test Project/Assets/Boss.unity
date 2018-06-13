@@ -381,7 +381,11 @@ MonoBehaviour:
   Monster: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   MonScript: {fileID: 2093489112}
+=======
+  MonScript: {fileID: 1696070813}
+>>>>>>> 8b0f7f32bd1b87b179868482d680909ca198d524
 =======
   MonScript: {fileID: 1696070813}
 >>>>>>> 8b0f7f32bd1b87b179868482d680909ca198d524
