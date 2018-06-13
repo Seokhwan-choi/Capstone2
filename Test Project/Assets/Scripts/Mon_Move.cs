@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Mon_Move : MonoBehaviour {
 
-    Animator animator;
-    Animation ani;
-    Rigidbody2D rigid;
+    Animator animator;    
     Vector3 movement;
     GameObject traceTarget;
 
@@ -20,12 +18,8 @@ public class Mon_Move : MonoBehaviour {
     bool isDying = false;
     bool isHiting = false;
 
-    float Death_time = 0.0f;
-
     void Start () {
-        rigid = gameObject.GetComponent<Rigidbody2D>();
-        animator = gameObject.GetComponentInChildren<Animator>();
-        ani = gameObject.GetComponent<Animation>();
+        animator = gameObject.GetComponentInChildren<Animator>();        
         StartCoroutine("ChangeMovement");
     }
 
@@ -100,7 +94,6 @@ public class Mon_Move : MonoBehaviour {
 
     void OnTriggerEnter2D (Collider2D other)
     {
-        Vector2 mon = new Vector2(0,0);
         if(other.gameObject.tag == "Player")
         {
             traceTarget = other.gameObject;
@@ -112,59 +105,15 @@ public class Mon_Move : MonoBehaviour {
             isHiting = true;
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
-            movePower = 0f;
-            mon = new Vector2(3f, 0);
-            rigid.AddForce(mon, ForceMode2D.Impulse);
-            movePower = 1f;
             if (M_Health < 0)
             {
                 isDying = true;
                 animator.SetBool("isDying", true);
                 animator.SetTrigger("isDying");
-                while (true)
-                {
-                    
-                    Death_time += Time.deltaTime;
-                    if (Death_time >= 0.35f)
-                    {
-                        Instantiate(Power, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject, 1f);
-                        break;
-                   }
-                }
+                Instantiate(Power, transform.position, Quaternion.identity);
+                Destroy(this.gameObject,1f);
             }
         }
-
-        if (other.gameObject.tag == "Attack_check_left")
-        {
-            M_Health--;
-            isHiting = true;
-            animator.SetBool("isHiting", true);
-            animator.SetTrigger("isHiting");
-
-            movePower = 0f;
-            mon = new Vector2(-3f, 0);
-            rigid.AddForce(mon, ForceMode2D.Impulse);
-            movePower = 1f;
-            if (M_Health < 0)
-            {
-                isDying = true;
-                animator.SetBool("isDying", true);
-                animator.SetTrigger("isDying");
-                while (true)
-                {
-                    Death_time += Time.deltaTime;
-                    if (Death_time >= 0.35f)
-                    {
-                        Instantiate(Power, transform.position, Quaternion.identity);
-                        Destroy(this.gameObject, 1f);
-                        break;
-                    }
-                }
-                
-            }
-        }
-
     }
     void OnTriggerStay2D(Collider2D other)
     {
