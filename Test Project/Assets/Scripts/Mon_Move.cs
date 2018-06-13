@@ -10,6 +10,8 @@ public class Mon_Move : MonoBehaviour {
     Vector3 movement;
     GameObject traceTarget;
 
+    float ch = 0.0f;
+
     public GameObject Power;
 
     int movementFlag = 0;
@@ -26,7 +28,7 @@ public class Mon_Move : MonoBehaviour {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
         ani = gameObject.GetComponent<Animation>();
-        StartCoroutine("ChangeMovement");
+        StartCoroutine("ChangeMovement");  
     }
 
     IEnumerator ChangeMovement()
@@ -119,14 +121,14 @@ public class Mon_Move : MonoBehaviour {
             if (M_Health < 0)
             {
                 isDying = true;
-                animator.SetBool("isDying", true);
-                animator.SetTrigger("isDying");
-                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+                animator.SetBool("Death", true);
+                animator.SetTrigger("Dying");
                 while (true)
                 {
                     
                     Death_time += Time.deltaTime;
-                    if (Death_time >= 0.35f)
+                    if (Death_time >= 1.0f)
                     {
                         Instantiate(Power, transform.position, Quaternion.identity);
                         Destroy(this.gameObject, 1f);
@@ -150,12 +152,12 @@ public class Mon_Move : MonoBehaviour {
             if (M_Health < 0)
             {
                 isDying = true;
-                animator.SetBool("isDying", true);
-                animator.SetTrigger("isDying");
+                animator.SetBool("Death", true);
+                animator.SetTrigger("Dying");
                 while (true)
                 {
                     Death_time += Time.deltaTime;
-                    if (Death_time >= 0.35f)
+                    if (Death_time >= 1.0f)
                     {
                         Instantiate(Power, transform.position, Quaternion.identity);
                         Destroy(this.gameObject, 1f);
