@@ -44407,7 +44407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7bf79e48183214f9efc2ac3e517722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 0}
+  Inventory: {fileID: 358192040}
 --- !u!4 &1045746116
 Transform:
   m_ObjectHideFlags: 0
@@ -47887,6 +47887,36 @@ Prefab:
         type: 2}
       propertyPath: m_CullingMask.m_Bits
       value: 3585
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293306167703886, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 1459105088865670, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 4653121634093734, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.705
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653121634093734, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.107
+      objectReference: {fileID: 0}
+    - target: {fileID: 4611354920193998, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4611354920193998, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1440700296544404, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}
+      propertyPath: m_TagString
+      value: Attack_check_left
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69f6ff1c6dc9e004c92e85f07e2cad3b, type: 2}

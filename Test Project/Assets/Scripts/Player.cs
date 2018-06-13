@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid;
 
-
+    public Animation ani;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
+        ani = gameObject.GetComponent<Animation>();
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
@@ -188,7 +189,7 @@ public class Player : MonoBehaviour
         // 콤보 공격
         if (isAttack)
         {
-            if (animator.GetInteger("AttackState") == 4)
+            if (animator.GetInteger("AttackState") == 5)
             {
                 animator.SetBool("Attack", false);
                 animator.SetInteger("AttackState", 0);                
@@ -199,7 +200,7 @@ public class Player : MonoBehaviour
                 Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
             }
             AttackTime += Time.deltaTime;
-            if (AttackTime >= 0.3f)
+            if (AttackTime >= 0.35f)
             {
                 animator.SetBool("Attack", false);
                 animator.SetInteger("AttackState", 0);
@@ -274,7 +275,7 @@ public class Player : MonoBehaviour
         // 캐릭터 점프 콤보
         if (isJumpCombo)
         {
-            if (animator.GetInteger("JumpState") == 4)
+            if (animator.GetInteger("JumpState") == 5)
             {
                 animator.SetBool("JumpUpper", false);
                 animator.SetInteger("JumpState", 0);
@@ -321,14 +322,14 @@ public class Player : MonoBehaviour
             }
         }
         // 캐릭터 벽 타기
-        if (animator.GetBool("isJumping"))
+        if (animator.GetBool("isJumping") || isWallSliding)
         {
             if (facingright)
             {
                 if (wallCheck = Physics2D.OverlapCircle(wallCheck_right.transform.position, 0.1f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isRide", true);
+                    animator.SetBool("isLride", true);
                     if (facingright && Input.GetAxisRaw("Horizontal") > 0)
                     {
                         if (wallCheck)
@@ -337,7 +338,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isRide", false);
+                    animator.SetBool("isLride", false);
                     isWallSliding = false;
                 }
 
@@ -347,7 +348,7 @@ public class Player : MonoBehaviour
                 if (wallCheck = Physics2D.OverlapCircle(wallCheck_left.transform.position, 0.1f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isRide", true);
+                    animator.SetBool("isRride", true);
                     if (!facingright && Input.GetAxisRaw("Horizontal") < 0)
                     {
                         if (wallCheck)
@@ -356,7 +357,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isRide", false);
+                    animator.SetBool("isRride", false);
                     isWallSliding = false;
                 }
             }
@@ -365,6 +366,8 @@ public class Player : MonoBehaviour
         if (!wallCheck && !animator.GetBool("isJumping"))
         {
             isWallSliding = false;
+            animator.SetBool("isRride", false);
+            animator.SetBool("isLride", false);
         }
 
         // Power magnet
@@ -374,19 +377,17 @@ public class Player : MonoBehaviour
     // 캐릭터 벽 타기
     void HandlewallSliding()
     {
-        rigid.velocity = new Vector2(rigid.velocity.x, -5.0f);
+        rigid.velocity = new Vector2(rigid.velocity.x, -1.0f);
 
         if (facingright)
         {
             Instantiate(dustEffect, new Vector3(transform.position.x + 0.5f, transform.position.y - 0.35f
                         , transform.position.z), Quaternion.identity);
-            spriteRenderer.flipX = true;
         }
         else if (!facingright)
         {
             Instantiate(dustEffect, new Vector3(transform.position.x - 0.5f, transform.position.y - 0.35f
                         , transform.position.z), Quaternion.identity);
-            spriteRenderer.flipX = false;
         }
 
         isWallSliding = true;
@@ -437,7 +438,7 @@ public class Player : MonoBehaviour
                 animator.SetInteger("AttackState", 4);
                 break;
             case 4:
-                animator.SetInteger("AttackState", 0);
+                animator.SetInteger("AttackState", 5);
                 break;
             default:
                 animator.SetInteger("AttackState", 1);
@@ -460,7 +461,7 @@ public class Player : MonoBehaviour
                 animator.SetInteger("JumpState", 4);
                 break;
             case 4:
-                animator.SetInteger("JumpState", 0);
+                animator.SetInteger("JumpState", 5);
                 break;
             default:
                 animator.SetInteger("JumpState", 1);
@@ -552,14 +553,12 @@ public class Player : MonoBehaviour
             {
                 killVelocity = new Vector2(10f, 0);
                 animator.SetTrigger("Hit");
-                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             else if (facingright)
             {
                 killVelocity = new Vector2(-10f, 0);
                 animator.SetTrigger("Hit");
-                spriteRenderer.flipX = false;
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
