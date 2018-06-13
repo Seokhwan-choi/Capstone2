@@ -281,7 +281,7 @@ public class Player : MonoBehaviour
                 animator.SetInteger("JumpState", 0);
                 isJumpCombo = false;
                 AttackTime = 0;
-                rigid.gravityScale = 2.0f;
+                rigid.gravityScale = 3.0f;
 
                 Attack_Check_right.GetComponent<CircleCollider2D>().enabled = false;
                 Attack_Check_left.GetComponent<CircleCollider2D>().enabled = false;
@@ -322,14 +322,14 @@ public class Player : MonoBehaviour
             }
         }
         // 캐릭터 벽 타기
-        if (animator.GetBool("isJumping") || isWallSliding)
+        if (animator.GetBool("isJumping"))
         {
             if (facingright)
             {
-                if (wallCheck = Physics2D.OverlapCircle(wallCheck_right.transform.position, 0.1f, wallLayerMask))
+                if (wallCheck = Physics2D.OverlapCircle(wallCheck_right.transform.position, 0.5f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isLride", true);
+                    animator.SetBool("isRride", true);
                     if (facingright && Input.GetAxisRaw("Horizontal") > 0)
                     {
                         if (wallCheck)
@@ -338,7 +338,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isLride", false);
+                    animator.SetBool("isRride", false);
                     isWallSliding = false;
                 }
 
@@ -348,7 +348,7 @@ public class Player : MonoBehaviour
                 if (wallCheck = Physics2D.OverlapCircle(wallCheck_left.transform.position, 0.1f, wallLayerMask))
                 {
                     jumpCount = 2;
-                    animator.SetBool("isRride", true);
+                    animator.SetBool("isLride", true);
                     if (!facingright && Input.GetAxisRaw("Horizontal") < 0)
                     {
                         if (wallCheck)
@@ -357,7 +357,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("isRride", false);
+                    animator.SetBool("isLride", false);
                     isWallSliding = false;
                 }
             }
@@ -372,7 +372,7 @@ public class Player : MonoBehaviour
 
         // Power magnet
         PowerCounter.text = PowerNumber.ToString();
-        PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y);
+        PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y+1.5f);
     }
     // 캐릭터 벽 타기
     void HandlewallSliding()
@@ -552,13 +552,13 @@ public class Player : MonoBehaviour
             if (!facingright)
             {
                 killVelocity = new Vector2(10f, 0);
-                animator.SetTrigger("Hit");
+                animator.SetTrigger("LHit");
                 Health_Power--;
             }
             else if (facingright)
             {
                 killVelocity = new Vector2(-10f, 0);
-                animator.SetTrigger("Hit");
+                animator.SetTrigger("RHit");
                 Health_Power--;
             }
             rigid.AddForce(killVelocity, ForceMode2D.Impulse);
@@ -573,6 +573,7 @@ public class Player : MonoBehaviour
     IEnumerator UnBeatTime()//무적시간 코루틴
     {
         SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        transform.gameObject.tag = "Untagged";
         int countTime = 0;
         while (countTime < 10)
         {
@@ -587,6 +588,7 @@ public class Player : MonoBehaviour
         }
         spriteRenderer.color = new Color32(255, 255, 255, 255);
         isUnBeatTime = false;
+        transform.gameObject.tag = "Player";
         yield return null;
     }
 

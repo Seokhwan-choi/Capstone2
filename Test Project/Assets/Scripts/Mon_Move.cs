@@ -121,6 +121,7 @@ public class Mon_Move : MonoBehaviour {
                 isDying = true;
                 animator.SetBool("isDying", true);
                 animator.SetTrigger("isDying");
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 while (true)
                 {
                     

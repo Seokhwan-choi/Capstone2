@@ -17,6 +17,10 @@ public class Power : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
+
+        rb.velocity = Vector2.zero;
+        Vector2 jumpVelocity = new Vector2(0, 7.5f);
+        rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
     }
 	
 	// Update is called once per frame
@@ -27,21 +31,19 @@ public class Power : MonoBehaviour {
             rb.velocity = new Vector2(PlayerDirection.x, PlayerDirection.y) * 10f * (Time.time / timeStamp);
         }
 
-        if (!check)
-        {
-            check = true;
-            rb.velocity = Vector2.zero;
-            Vector2 jumpVelocity = new Vector2(0, 7.5f);
-            rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
+        //if (!check)
+        //{
+        //    check = true;
+            
 
-        }
+        //}
 
-        checkTime += Time.deltaTime;
-        if(checkTime > 1f)
-        {
-            gameObject.GetComponent<CircleCollider2D>().enabled = true;
-            checkTime = 0;
-        }
+        //checkTime += Time.deltaTime;
+        //if(checkTime > 1f)
+        //{
+        //    gameObject.GetComponent<CircleCollider2D>().enabled = true;
+        //    checkTime = 0;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other)
