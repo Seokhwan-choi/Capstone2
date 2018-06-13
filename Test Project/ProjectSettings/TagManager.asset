@@ -12,6 +12,7 @@ TagManager:
   - Attack_check
   - Inventory
   - Item
+  - Attack_check_left
   layers:
   - Default
   - TransparentFX
