@@ -22,6 +22,7 @@ public class Mon_Move2 : MonoBehaviour
     public int AttackType = 0;
     public int creatureType;
     public int M_Health = 20;
+    public string dist = "Left";
     int Jumpcount = 0;
 
     public bool isTracing = false;
@@ -111,7 +112,6 @@ public class Mon_Move2 : MonoBehaviour
     void Move()
     {   
         moveVelocity = Vector3.zero;//초기화
-        string dist = "";
         //추적
         if (isTracing)
         {

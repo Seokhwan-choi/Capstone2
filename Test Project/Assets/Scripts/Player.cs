@@ -580,6 +580,27 @@ public class Player : MonoBehaviour
             isUnBeatTime = true;
             StartCoroutine("UnBeatTime");
         }
+
+        if (other.gameObject.tag == "Bullet")
+        {
+            Missile_Move mm = other.gameObject.GetComponent<Missile_Move>();
+
+            Vector2 Boom = new Vector2(0, 0);
+
+            if (mm.v == Vector3.left)
+            {
+                Boom = new Vector2(-15, 0);
+                animator.SetTrigger("LHit");
+            }
+            else if (mm.v == Vector3.right)
+            {
+                Boom = new Vector2(15, 0);
+                animator.SetTrigger("RHit");
+            }
+            rigid.AddForce(Boom, ForceMode2D.Impulse);
+            Health_Power = Health_Power - 3;
+            Destroy(other.gameObject);
+        }
     }
     IEnumerator UnBeatTime()//무적시간 코루틴
     {
