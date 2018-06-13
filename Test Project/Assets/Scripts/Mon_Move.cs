@@ -113,7 +113,7 @@ public class Mon_Move : MonoBehaviour {
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
             movePower = 0f;
-            mon = new Vector2(3f, 0);
+            mon = new Vector2(4f, 0);
             rigid.AddForce(mon, ForceMode2D.Impulse);
             movePower = 1f;
             if (M_Health < 0)
@@ -143,7 +143,7 @@ public class Mon_Move : MonoBehaviour {
             animator.SetTrigger("isHiting");
 
             movePower = 0f;
-            mon = new Vector2(-3f, 0);
+            mon = new Vector2(-4f, 0);
             rigid.AddForce(mon, ForceMode2D.Impulse);
             movePower = 1f;
             if (M_Health < 0)
