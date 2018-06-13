@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
         Headhpbar_Player hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();
-        hps.init();
+        //hps.init();
     }
 
     // Update is called once per frame
@@ -90,10 +90,13 @@ public class Player : MonoBehaviour
         else if ((Input.GetAxisRaw("Horizontal") > 0))
         {
             animator.SetBool("isMoving", true);
+            //Player_walk.instance.PlaySound();
         }
         else if ((Input.GetAxisRaw("Horizontal") < 0))
         {
             animator.SetBool("isMoving", true);
+            //Player_walk.instance.PlaySound();
+
         }
 
         // 캐릭터 점프
@@ -418,8 +421,7 @@ public class Player : MonoBehaviour
 
             spriteRenderer.flipX = false;
             facingright = true;
-        }
-
+        }        
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
     // 캐릭터 콤보공격
