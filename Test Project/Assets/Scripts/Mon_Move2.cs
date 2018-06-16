@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Diagnostics;
+using debug = UnityEngine.Debug;
+
 public class Mon_Move2 : MonoBehaviour
 {
 
@@ -11,10 +14,10 @@ public class Mon_Move2 : MonoBehaviour
     Vector3 movement;
     Rigidbody2D rigid;
     Headhpbar hps;
-    
+    Vector2 loc;
     public GameObject player;
     public Player playerScript;
-
+    float Death_time = 0.0f;
     public GameObject bullet;
     public Transform firePos;
     int movementFlag = 0;
@@ -40,7 +43,7 @@ public class Mon_Move2 : MonoBehaviour
         animator = gameObject.GetComponentInChildren<Animator>();        
         hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar>();
         hps.init();        
-        StartCoroutine("ChangeMovement");
+        StartCoroutine("ChangeMovement", 1f);
     }
 
     IEnumerator ChangeMovement() //움직이는 코루틴
@@ -55,7 +58,7 @@ public class Mon_Move2 : MonoBehaviour
             animator.SetBool("isMoving", true);
         }
         yield return new WaitForSeconds(3f);
-        StartCoroutine("ChangeMovement");
+        StartCoroutine("ChangeMovement", 1f);
     }
     IEnumerator Attack() // 공격 코루틴
     {
@@ -64,20 +67,23 @@ public class Mon_Move2 : MonoBehaviour
         if (AttackType == 1) // move
         {
             animator.SetBool("isMoving", true);
+            animator.SetBool("isMissile", false);
             animator.SetBool("isAttacking1", false);
             animator.SetBool("isAttacking2", false);
 
         }
         else if (AttackType == 2) // attack1
         {
-            animator.SetBool("isAttacking1", true);
+            animator.SetBool("isAttacking1", true);            
             animator.SetBool("isMoving", false);
+            animator.SetBool("isMissile", false);
             animator.SetBool("isAttacking2", false);
         }
         else if (AttackType == 3) // attack2
         {
-            animator.SetBool("isMoving", false);
+            animator.SetBool("isMoving", false);            
             animator.SetBool("isAttacking2", true);
+            animator.SetBool("isMissile", false);
             animator.SetBool("isAttacking1", false);
             transform.position += moveVelocity * 4 * Time.deltaTime;
             if (Jumpcount > 0)
@@ -90,19 +96,26 @@ public class Mon_Move2 : MonoBehaviour
         }
         else if (AttackType == 4)
         {
-            animator.SetBool("isMissile", true);
+            checkTime += Time.deltaTime;
+            animator.SetTrigger("Missile");            
+            if (checkTime > 0.5f)
+            {                
+                StartCoroutine("Attack", 1f);
+                checkTime = 0;
+            }
             Fire();
-            animator.SetBool("isMoving", false);
-            animator.SetBool("isMissile", false);
         }
         else
         {
             animator.SetBool("isMoving", false);
             animator.SetBool("isAttacking1", false);
             animator.SetBool("isAttacking2", false);
+            animator.SetBool("isMissile", false);
         }
-        yield return new WaitForSeconds(5);
-        StartCoroutine("Attack");
+        debug.Log(AttackType);
+        yield return new WaitForSeconds(5f);
+
+        StartCoroutine("Attack", 3f);
     }      
     void FixedUpdate()
     {
@@ -115,20 +128,11 @@ public class Mon_Move2 : MonoBehaviour
         //추적
         if (isTracing)
         {
-            Vector2 loc = traceTarget.transform.position - transform.position;
-            transform.position += (traceTarget.transform.position - transform.position).normalized * movePower * Time.deltaTime;
-            if(loc.x >= 0)
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = -Mathf.Abs(scale.x);
-                transform.localScale = scale;
-            }
-            else
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x);
-                transform.localScale = scale;
-            }
+            Vector3 playerPos = traceTarget.transform.position;
+            if (playerPos.x < transform.position.x)
+                dist = "Left";
+            else if (playerPos.x > transform.position.x)
+                dist = "Right";
         }
         else
         {
@@ -161,24 +165,27 @@ public class Mon_Move2 : MonoBehaviour
 
         if (other.gameObject.tag == "Attack_check")
         {
-            M_Health--;
+            Sound1.instance.PlaySound();
+            M_Health--;            
             StopCoroutine("Attack");
             checkTime += Time.deltaTime;            
             animator.SetTrigger("isHit");
             if (checkTime > 0.5f)
             {
-                StartCoroutine("Attack");
+                StartCoroutine("Attack", 1f);
                 checkTime = 0;
             }
             transform.position += moveVelocity * 2 * Time.deltaTime;
-            if (M_Health < 0)
-            {
+            if (M_Health == 0)
+            {                
                 isDying = true;                
                 animator.SetTrigger("isDie");
+                Sound2.instance.PlaySound();
+                Death_time += Time.deltaTime;
                 StopCoroutine("ChangeMovement");
-                Destroy(this.gameObject, 1);
-                SceneManager.LoadScene("Retry");
-                Destroy(hps,1);
+                Destroy(this.gameObject, 1f);
+                SceneManager.LoadScene("Win");
+                Destroy(hps, 1);
             }
         }
     }
@@ -192,7 +199,7 @@ public class Mon_Move2 : MonoBehaviour
                 traceTarget = other.gameObject;
                 StopCoroutine("ChangeMovement");
                 isTracing = true;
-                StartCoroutine("Attack");
+                StartCoroutine("Attack", 1f);
             }
         }
     }
@@ -205,7 +212,8 @@ public class Mon_Move2 : MonoBehaviour
             StopCoroutine("Attack");
             animator.SetBool("isAttacking1", false);
             animator.SetBool("isAttacking2", false);
-            StartCoroutine("ChangeMovement");
+            animator.SetBool("isMissile", false);
+            StartCoroutine("ChangeMovement", 1f);
 
         }
     }

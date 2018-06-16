@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Retry.unity
     guid: 956a204788db7fb4283f4ae574e859c1
+  - enabled: 1
+    path: Assets/Win.unity
+    guid: 37308c87a7371b54db5b4731575e07b1
   m_configObjects: {}

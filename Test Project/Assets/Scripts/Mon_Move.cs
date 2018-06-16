@@ -111,6 +111,7 @@ public class Mon_Move : MonoBehaviour {
         if(other.gameObject.tag == "Attack_check")
         {
             M_Health--;
+            Sound1.instance.PlaySound();
             isHiting = true;
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
@@ -121,7 +122,7 @@ public class Mon_Move : MonoBehaviour {
             if (M_Health < 0)
             {
                 isDying = true;
-
+                Sound2.instance.PlaySound();
                 animator.SetBool("Death", true);
                 animator.SetTrigger("Dying");
                 while (true)
@@ -145,6 +146,7 @@ public class Mon_Move : MonoBehaviour {
             animator.SetBool("isHiting", true);
             animator.SetTrigger("isHiting");
 
+            Sound1.instance.PlaySound();
             movePower = 0f;
             mon = new Vector2(-4f, 0);
             rigid.AddForce(mon, ForceMode2D.Impulse);
@@ -154,6 +156,7 @@ public class Mon_Move : MonoBehaviour {
                 isDying = true;
                 animator.SetBool("Death", true);
                 animator.SetTrigger("Dying");
+                Sound2.instance.PlaySound();
                 while (true)
                 {
                     Death_time += Time.deltaTime;

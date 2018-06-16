@@ -38,10 +38,10 @@ public class Player : MonoBehaviour
     public bool inputDown = false;
     public bool inputAttack = false;
     public bool inputDash = false;
-
+    float Death_time = 0.0f;
     public bool isAttack = false;
     public bool isJumpCombo = false;
-
+    bool chk = true;
     public GameObject dustEffect;
     public GameObject Bullet;
 
@@ -76,13 +76,28 @@ public class Player : MonoBehaviour
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
-        hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();
-        hps.init();
+        hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();        
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 죽음확인
+        if (Health_Power <= 0 && chk)
+        {
+            animator.SetTrigger("Death");
+            Sound_Pl.instance.PlaySound();
+            Death_time += Time.deltaTime;
+           
+            
+                if (Death_time >= 1.0f)
+                {
+                    Destroy(this.gameObject, 1f);                   
+                }
+            
+            SceneManager.LoadScene("Retry");
+            chk = false;
+        }
         // 캐릭터 Idle,왼쪽이동,오른쪽이동
         if (Input.GetAxisRaw("Horizontal") == 0)
         {
@@ -327,6 +342,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        
         // 캐릭터 벽 타기
         if (animator.GetBool("isJumping"))
         {
@@ -374,15 +390,11 @@ public class Player : MonoBehaviour
             isWallSliding = false;
             animator.SetBool("isRide", false);
         }
-        // 죽음확인
-        if (Health_Power <= 0)
-        {
-            Die();
-        }
+        
 
         // Power magnet
-        PowerCounter.text = PowerNumber.ToString();
-        PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y+1.5f);
+        //PowerCounter.text = PowerNumber.ToString();
+        //PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y+1.5f);
     }
     // 캐릭터 벽 타기
     void HandlewallSliding()
@@ -490,13 +502,7 @@ public class Player : MonoBehaviour
         isJumping = false;
         jumpCount--;
     }
-
-    // 쥬금
-    void Die()
-    {
-        animator.SetTrigger("Death");
-        SceneManager.LoadScene("Retry");
-    }
+    
 
     // 캐릭터 총알발사
     void Shoot()
