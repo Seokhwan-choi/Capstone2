@@ -14,14 +14,20 @@ public class Power : MonoBehaviour {
 
     float checkTime;
 
+    [SerializeField] item power;
+
+    private Inventory Iv;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        Iv = GameObject.Find("Inventory").GetComponent<Inventory>();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        
         if (find)
         {
             PlayerDirection = -(transform.position - Player.transform.position).normalized;
@@ -58,6 +64,15 @@ public class Power : MonoBehaviour {
         //    gameObject.GetComponent<CircleCollider2D>().enabled = true;
         //    checkTime = 0;
         //}
+    }
+
+    public void AddItem()
+    {
+        if(!Iv.AddItem(power))
+        {
+            Debug.Log("아이템이 가득 찼습니다.");
+        }
+        else { }
     }
     
     private void OnTriggerEnter2D(Collider2D other)

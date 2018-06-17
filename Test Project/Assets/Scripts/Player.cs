@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-
     public float movePower = 7.5f; // 움직이는 속도
     public float jumpPower = 20f; //  점프 세기
     public float maxSlideTime = 0.3f; // 슬라이딩 시간
@@ -19,8 +18,6 @@ public class Player : MonoBehaviour
     public Animation ani;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
-
-
     Vector3 movement;
 
     bool isUnBeatTime = false;
@@ -66,6 +63,8 @@ public class Player : MonoBehaviour
     float HoldTime = 0.0f;
 
     int PowerNumber;
+
+    public Power power;
 
     // Use this for initialization
     void Start()
@@ -393,8 +392,8 @@ public class Player : MonoBehaviour
         
 
         // Power magnet
-        //PowerCounter.text = PowerNumber.ToString();
-        //PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y+1.5f);
+        PowerCounter.text = PowerNumber.ToString();
+        PowerMagnet.transform.position = new Vector2(transform.position.x, transform.position.y+1.5f);
     }
     // 캐릭터 벽 타기
     void HandlewallSliding()
@@ -550,6 +549,8 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.tag.Equals("Power"))
         {
+            power = other.gameObject.GetComponent<Power>();
+            power.AddItem();
             Destroy(other.gameObject);
             PowerNumber += 1;
         }

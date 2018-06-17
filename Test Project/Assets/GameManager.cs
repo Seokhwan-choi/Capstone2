@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
@@ -8,8 +6,11 @@ public class GameManager : MonoBehaviour {
 
     private bool is_iv = false;
 	void Start () {
-		
-	}
+        Vector3 pos;
+        pos = Inventory.transform.position;
+        pos.x = 5000;
+        Inventory.transform.position = pos;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -18,12 +19,18 @@ public class GameManager : MonoBehaviour {
             if (!is_iv)
             {
                 is_iv = true;
-                Inventory.SetActive(true);
+                Vector3 pos;
+                pos = Inventory.transform.position;
+                pos.x = 350;
+                Inventory.transform.position = pos;
             }
             else
             {
-                Inventory.SetActive(false);
                 is_iv = false;
+                Vector3 pos;
+                pos = Inventory.transform.position;
+                pos.x = 5000;
+                Inventory.transform.position = pos;
             }
         }
 	}
