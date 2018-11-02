@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     public float movePower = 7.5f; // 움직이는 속도
     public float jumpPower = 20f; //  점프 세기
@@ -81,6 +82,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         // 죽음확인
         if (Health_Power <= 0 && chk)
         {
@@ -416,6 +421,10 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         Move();
         Jump();
         Shoot();
