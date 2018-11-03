@@ -14,6 +14,8 @@ public class Player : NetworkBehaviour
     public int jumpCount = 2; // 점프 가능 횟수
     public int Health_Power = 5;
 
+    public Camera cam;
+
     Rigidbody2D rigid;
 
     public Animation ani;
@@ -73,7 +75,7 @@ public class Player : NetworkBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
         ani = gameObject.GetComponent<Animation>();
-        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        //spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         UIButton ui = GameObject.FindGameObjectWithTag("Managers").GetComponent<UIButton>();
         ui.init();
         hps = GameObject.FindGameObjectWithTag("HPbar").GetComponent<Headhpbar_Player>();        
@@ -84,6 +86,7 @@ public class Player : NetworkBehaviour
     {
         if (!isLocalPlayer)
         {
+            cam.enabled = false;
             return;
         }
         // 죽음확인
@@ -438,16 +441,14 @@ public class Player : NetworkBehaviour
         {
             moveVelocity = Vector3.left;
 
-            spriteRenderer.flipX = true;
-            facingright = false;
+            CmdMoveleft();
 
         }
         else if (inputRight || (Input.GetAxisRaw("Horizontal") > 0))
         {
             moveVelocity = Vector3.right;
+            CmdMoveright();
 
-            spriteRenderer.flipX = false;
-            facingright = true;
         }
 
         transform.position += moveVelocity * movePower * Time.deltaTime;
@@ -641,5 +642,16 @@ public class Player : NetworkBehaviour
         yield return null;
     }
 
+    [Command]
+    void CmdMoveleft()
+    {
+        spriteRenderer.flipX = true;
+        facingright = false;
+    }
+    void CmdMoveright()
+    {
+        spriteRenderer.flipX = false;
+        facingright = true;
+    }
 
 }
